@@ -70,7 +70,7 @@ select:focus-visible {
 }
 
 .app-shell {
-  width: min(100%, 980px);
+  width: min(100%, 512px);
   min-height: 100vh;
   margin: 0 auto;
   padding-bottom: calc(98px + env(safe-area-inset-bottom));
@@ -84,7 +84,7 @@ select:focus-visible {
 }
 
 .site-header {
-  width: min(100%, 800px);
+  width: min(100%, 512px);
   min-height: 92px;
   display: flex;
   align-items: center;
@@ -103,14 +103,13 @@ select:focus-visible {
 .site-header__greeting strong {
   color: var(--text);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 24px;
+  font-size: 30px;
   font-weight: 500;
   letter-spacing: -0.035em;
 }
 
 .site-header__greeting span {
-  color: var(--muted);
-  font-size: 11px;
+  display: none;
 }
 
 .language-chip {
@@ -139,9 +138,9 @@ select:focus-visible {
 }
 
 .app-page {
-  width: min(100%, 760px);
+  width: min(100%, 512px);
   margin: 0 auto;
-  padding: 5px 22px 36px;
+  padding: 8px 20px 36px;
 }
 
 .eyebrow {
@@ -218,7 +217,7 @@ select:focus-visible {
 .home-page {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 20px;
 }
 
 .home-page__title {
@@ -232,20 +231,20 @@ select:focus-visible {
 
 .rewards-card {
   position: relative;
-  min-height: 218px;
+  min-height: 169px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 16px;
-  padding: 19px 21px 17px;
+  gap: 13px;
+  padding: 20px 22px 18px;
   overflow: hidden;
-  border: 1px solid #51452d;
-  border-radius: 22px;
+  border: 1px solid #343434;
+  border-radius: 25px;
   background:
-    radial-gradient(ellipse at 88% 8%, rgb(240 217 156 / 16%), transparent 33%),
-    repeating-linear-gradient(135deg, transparent 0 17px, rgb(255 255 255 / 2%) 18px, transparent 19px),
-    linear-gradient(135deg, #28251d 0%, #171715 48%, #101010 100%);
-  box-shadow: 0 18px 34px rgb(0 0 0 / 42%), inset 0 1px 0 rgb(255 255 255 / 7%);
+    radial-gradient(ellipse at 52% 120%, rgb(255 255 255 / 9%), transparent 65%),
+    repeating-linear-gradient(105deg, transparent 0 3px, rgb(255 255 255 / 2.2%) 4px, transparent 5px),
+    linear-gradient(140deg, #292929 0%, #171717 54%, #222 100%);
+  box-shadow: 0 17px 30px rgb(0 0 0 / 48%), inset 0 1px 0 rgb(255 255 255 / 8%);
 }
 
 .rewards-card__top,
@@ -259,39 +258,40 @@ select:focus-visible {
 }
 
 .rewards-card__top {
-  color: #cec3a7;
+  color: #a7a7a7;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.19em;
 }
 
-.rewards-card__mark {
-  width: 29px;
-  height: 26px;
-  display: grid;
-  place-items: center;
-  border: 1px solid #86754c;
+.rewards-card__chip {
+  position: relative;
+  width: 32px;
+  height: 23px;
+  flex: 0 0 auto;
+  border: 1px solid rgb(222 222 222 / 65%);
   border-radius: 6px;
-  background: linear-gradient(145deg, #e8d8ae, #927e51);
-  color: #201a0e;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 15px;
+  background:
+    linear-gradient(90deg, transparent 47%, rgb(55 55 55 / 70%) 48% 52%, transparent 53%),
+    linear-gradient(0deg, transparent 46%, rgb(55 55 55 / 70%) 47% 52%, transparent 53%),
+    linear-gradient(135deg, #dedbd1, #817e76);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 22%);
 }
 
 .rewards-card__label,
 .rewards-card__status {
   display: block;
-  color: #a9a49a;
-  font-size: 10px;
+  color: #aaa;
+  font-size: 9px;
 }
 
 .rewards-card__balance {
   display: block;
-  margin: 4px 0 1px;
-  color: #f6f1e7;
+  margin: 1px 0 2px;
+  color: #f5f5f5;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 37px;
+  font-size: 43px;
   font-weight: 500;
   letter-spacing: -0.045em;
 }
@@ -300,8 +300,8 @@ select:focus-visible {
   align-items: flex-start;
   justify-content: start;
   flex-direction: column;
-  gap: 4px;
-  color: #c5b997;
+  gap: 3px;
+  color: #b8b8b8;
 }
 
 .rewards-card__footer span {
@@ -310,39 +310,47 @@ select:focus-visible {
 }
 
 .rewards-card__footer strong {
-  color: #ece7da;
+  color: #d3d3d3;
   font-size: 11px;
   font-weight: 600;
 }
 
-.rewards-card__chip {
-  position: absolute;
-  right: 24px;
-  bottom: 30px;
-  width: 34px;
-  height: 25px;
-  border: 1px solid rgb(222 201 152 / 75%);
-  border-radius: 6px;
-  background:
-    linear-gradient(90deg, transparent 46%, rgb(44 36 20 / 65%) 47% 52%, transparent 53%),
-    linear-gradient(0deg, transparent 45%, rgb(44 36 20 / 65%) 46% 52%, transparent 53%),
-    linear-gradient(135deg, #dfcfaa, #978258);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 24%);
-}
-
 .home-action-row {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 5px;
 }
 
-.home-action-row .button {
-  min-width: 160px;
+.home-cashout {
+  margin-top: 46px;
+  width: min(100%, 228px);
+  min-height: 54px;
+  border: 1px solid #e8e8e8;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 4px 4px 0 #858585, 0 8px 20px rgb(0 0 0 / 25%);
+  color: #111;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.home-cashout:disabled {
+  border-color: #e8e8e8;
+  background: #fff;
+  color: #111;
 }
 
 .home-action-row__note {
-  color: var(--subtle);
-  font-size: 10px;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
 }
 
 .bonus-card,
@@ -362,10 +370,117 @@ select:focus-visible {
 }
 
 .bonus-card {
-  padding: 17px;
+  margin-top: 8px;
+  padding: 16px 17px 13px;
+  border-color: #292929;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #171717, #111);
 }
 
-.bonus-card > p,
+.bonus-card__top,
+.bonus-card__identity {
+  display: flex;
+  align-items: center;
+}
+
+.bonus-card__top {
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bonus-card__identity {
+  min-width: 0;
+  gap: 13px;
+}
+
+.bonus-card__icon {
+  width: 41px;
+  height: 41px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid #514326;
+  border-radius: 13px;
+  color: var(--gold);
+}
+
+.bonus-card__icon svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
+.bonus-card__identity h2 {
+  margin: 0 0 4px;
+  color: #f1f1f1;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.bonus-card__identity p {
+  margin: 0;
+  color: #9a9a9a;
+  font-size: 10px;
+}
+
+.bonus-card__claim {
+  min-width: 77px;
+  min-height: 49px;
+  border: 1px solid #ba9653;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #f3cf83, #dfb967);
+  box-shadow: 2px 3px 0 #795c2d;
+  color: #17130b;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.bonus-card__claim:disabled {
+  border-color: #ba9653;
+  background: linear-gradient(135deg, #f3cf83, #dfb967);
+  color: #17130b;
+  opacity: 0.82;
+}
+
+.bonus-card__progress {
+  display: grid;
+  gap: 7px;
+  margin: 13px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.bonus-card__progress-track {
+  height: 4px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: #2a2a2a;
+}
+
+.bonus-card__progress-track span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--gold);
+}
+
+.bonus-card__progress-label {
+  color: #777;
+  font-size: 9px;
+}
+
+.bonus-card > p {
+  margin: 7px 0 0;
+  color: #777;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
 .availability-card p,
 .referral-panel > p,
 .supporting-copy,
@@ -390,19 +505,11 @@ select:focus-visible {
 }
 
 .bonus-card__progress {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 17px 0 13px;
-  padding-top: 13px;
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 10px;
-}
-
-.bonus-card__progress strong {
-  color: #d7d2c7;
-  font-size: 10px;
+  display: grid;
+  gap: 7px;
+  margin: 13px 0 0;
+  padding: 0;
+  border: 0;
 }
 
 .summary-grid {
@@ -1012,7 +1119,7 @@ select:focus-visible {
   right: 0;
   bottom: 0;
   left: 0;
-  width: min(100%, 980px);
+  width: min(100%, 512px);
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0;
@@ -1044,13 +1151,7 @@ select:focus-visible {
 }
 
 .bottom-nav__item.is-active::before {
-  position: absolute;
-  top: -8px;
-  width: 22px;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--gold);
-  content: "";
+  display: none;
 }
 
 .bottom-nav__icon {
@@ -1167,24 +1268,24 @@ select:focus-visible {
   }
 
   .home-action-row {
-    align-items: flex-start;
+    align-items: center;
     flex-direction: column;
   }
 }
 
 @media (min-width: 760px) {
   .site-header {
-    padding-right: 28px;
-    padding-left: 28px;
+    padding-right: 22px;
+    padding-left: 22px;
   }
 
   .app-page {
-    padding-right: 28px;
-    padding-left: 28px;
+    padding-right: 20px;
+    padding-left: 20px;
   }
 
   .home-page {
-    gap: 24px;
+    gap: 20px;
   }
 
   .summary-card {

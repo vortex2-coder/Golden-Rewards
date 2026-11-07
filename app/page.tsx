@@ -16,49 +16,61 @@ async function HomeContent() {
 
   return (
     <main className="app-page home-page">
-      <h1 className="home-page__title">Your rewards at a glance</h1>
-      <section className="rewards-card" aria-label="Rewards account status">
+      <section
+        className="rewards-card"
+        aria-label="Available USD balance. Unavailable because no rewards ledger is configured."
+      >
         <div className="rewards-card__top">
           <span>GOLDEN REWARDS</span>
-          <span className="rewards-card__mark" aria-hidden="true">G</span>
+          <span className="rewards-card__chip" aria-hidden="true" />
         </div>
         <div>
-          <span className="rewards-card__label">Available rewards</span>
-          <strong className="rewards-card__balance">—</strong>
-          <span className="rewards-card__status">
-            AdSense display ads do not generate user rewards
-          </span>
+          <strong className="rewards-card__balance">$—</strong>
         </div>
         <div className="rewards-card__footer">
           <span>ACCOUNT IDENTIFIER</span>
           <strong>{accountId ?? "Sign in to view"}</strong>
         </div>
-        <span className="rewards-card__chip" aria-hidden="true" />
       </section>
 
       <div className="home-action-row">
-        <button className="button button--muted" type="button" disabled>
-          Cash out unavailable
+        <button
+          className="button home-cashout"
+          type="button"
+          disabled
+          aria-describedby="cashout-unavailable"
+        >
+          Cash Out
         </button>
-        <span className="home-action-row__note">No rewards or withdrawals are configured</span>
+        <span className="home-action-row__note" id="cashout-unavailable">
+          Withdrawals are not configured
+        </span>
       </div>
 
       <section className="bonus-card">
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">DAILY BONUS</span>
-            <h2>Daily rewards are not enabled</h2>
+        <div className="bonus-card__top">
+          <div className="bonus-card__identity">
+            <span className="bonus-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M3 10h18v11H3zM2 6h20v4H2zM12 6v15M12 6c-4.5 0-5.5-1.5-5.5-3S10 1.5 12 6Zm0 0c4.5 0 5.5-1.5 5.5-3S14 1.5 12 6Z" />
+              </svg>
+            </span>
+            <div>
+              <h2>Daily Bonus</h2>
+              <p>Not configured</p>
+            </div>
           </div>
-          <span className="status-pill">Unavailable</span>
+          <button className="button button--gold bonus-card__claim" type="button" disabled>
+            Claim
+          </button>
         </div>
-        <p>Standard AdSense ads cannot be used as paid watch tasks or bonus claims.</p>
         <div className="bonus-card__progress">
-          <span>Bonus progress</span>
-          <strong>Not tracked</strong>
+          <span className="bonus-card__progress-track" aria-hidden="true">
+            <span />
+          </span>
+          <span className="bonus-card__progress-label">Progress not tracked</span>
         </div>
-        <button className="button button--muted" type="button" disabled>
-          Claim unavailable
-        </button>
+        <p>Daily bonuses are unavailable until a verified rewards program is configured.</p>
       </section>
 
       <section className="home-summary">
