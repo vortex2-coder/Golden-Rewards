@@ -24,7 +24,7 @@ as $$
 declare
   alphabet constant text := '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   value bigint;
-  code text;
+  candidate_code text;
   i integer;
   random_uuid uuid;
 begin
@@ -40,25 +40,25 @@ begin
       + get_byte(uuid_send(random_uuid), 4)::bigint * 256
       + get_byte(uuid_send(random_uuid), 5)::bigint
     ) % 60466176;
-    code := '';
+    candidate_code := '';
 
     for i in 1..5 loop
-      code := substr(alphabet, (value % 36)::integer + 1, 1) || code;
+      candidate_code := substr(alphabet, (value % 36)::integer + 1, 1) || candidate_code;
       value := value / 36;
     end loop;
 
     exit when not exists (
       select 1
       from public.profiles as p
-      where lower(p.referral_code) = lower(code)
+      where lower(p.referral_code) = lower(candidate_code)
     ) and not exists (
       select 1
       from public.referral_code_aliases as a
-      where lower(a.code) = lower(code)
+      where lower(a.code) = lower(candidate_code)
     );
   end loop;
 
-  return code;
+  return candidate_code;
 end;
 $$;
 
@@ -75,6 +75,9 @@ begin
   end loop;
 end;
 $$;
+
+alter table public.profiles
+  drop constraint if exists profiles_referral_code_format;
 
 alter table public.profiles
   add constraint profiles_referral_code_format
