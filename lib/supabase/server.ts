@@ -1,5 +1,6 @@
 import "server-only";
 
+import { isAuthSessionMissingError } from "@supabase/supabase-js";
 import { createServerClient } from "@supabase/ssr";
 import { cookies, headers } from "next/headers";
 
@@ -86,6 +87,9 @@ export async function getCurrentMember() {
 
   const { data: userData, error: userError } = await supabase.auth.getUser();
   if (userError) {
+    if (isAuthSessionMissingError(userError)) {
+      return { configured: true as const, user: null, profile: null };
+    }
     throw new Error("Could not validate the current account session.");
   }
   if (!userData.user) {
