@@ -456,7 +456,7 @@ export function ForgotPasswordForm({ configured }: { configured: boolean }) {
       {!configured && <div className="auth-setup-notice" role="status">Password recovery becomes available after Supabase is configured.</div>}
       {configured && (
         <div className="auth-setup-notice" role="status">
-          Supabase’s default email service is restricted to organization team addresses. Public password reset emails may not be delivered.
+          If the email matches an account, we’ll send a secure password reset link.
         </div>
       )}
       <div className="auth-field">
@@ -465,7 +465,7 @@ export function ForgotPasswordForm({ configured }: { configured: boolean }) {
       </div>
       <Feedback state={state} />
       <button className="button button--gold auth-submit" type="submit" disabled={pending}>
-        {pending ? "Sending…" : "Send reset link"}
+        {pending ? "Sending…" : "Send reset email"}
       </button>
       <p className="auth-switch"><Link href="/login">Back to log in</Link></p>
     </form>

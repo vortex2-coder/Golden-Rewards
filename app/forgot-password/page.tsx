@@ -5,7 +5,7 @@ import { ForgotPasswordForm } from "@/app/components/AuthForms";
 
 export const metadata: Metadata = {
   title: "Reset password",
-  description: "Request a Golden Rewards password reset link. Email delivery may be restricted.",
+  description: "Request a secure Golden Rewards password reset email.",
 };
 
 async function ForgotPasswordContent() {
@@ -14,7 +14,7 @@ async function ForgotPasswordContent() {
     <AuthPageFrame
       eyebrow="ACCOUNT RECOVERY"
       title="Reset your password."
-      description="Email confirmation is disabled. Supabase’s default email service may not deliver reset links to public addresses."
+      description="Enter your account email and we’ll send a secure reset link if it matches an account."
     >
       <ForgotPasswordForm configured={context.configured} />
     </AuthPageFrame>

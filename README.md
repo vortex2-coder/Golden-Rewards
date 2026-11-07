@@ -18,7 +18,7 @@ Without Supabase environment variables, account forms display setup guidance and
 3. Keep `SUPABASE_SECRET_KEY` server-only. Never prefix it with `NEXT_PUBLIC_` or expose it in browser code.
 4. Run the migrations in order in the Supabase SQL Editor: `supabase/migrations/20260417000100_auth_profiles_and_referrals.sql`, then `supabase/migrations/20260417000200_grant_service_role_profile_read.sql`.
 5. In Supabase Auth URL Configuration, set the site URL and allow the local and production callback URLs ending in `/auth/callback`.
-6. Email confirmation is disabled for this deployment at the owner's request. Supabase's default email service is restricted to organization team addresses and a low rate limit; public password-reset emails will not be reliable without custom SMTP.
+6. Email confirmation is disabled for this deployment at the owner's request. Custom SMTP is configured in Supabase Auth using Gmail SMTP (`smtp.gmail.com`, port `587`). Gmail personal accounts are not designed for transactional email, may have delivery/rate limits, and Supabase warns that deliverability may be impacted.
 7. Add the same public and server-only environment variables to the production hosting environment and redeploy.
 
 The migrations create the profile table, case-insensitive username and email uniqueness rules, E.164 phone uniqueness, immutable referral attribution, account status, profile RLS, and narrowly scoped referral/username RPCs. The follow-up grant allows the server-side service-role client to read profiles for username-to-email login resolution and duplicate phone checks. Referral lookups return only a username and referral code; referral history does not expose email addresses or phone numbers.
@@ -29,7 +29,7 @@ Referral counts represent registered accounts only. Because email confirmation i
 
 ## Verification limitations
 
-Local lint and production-build checks pass, all profile/referral migrations and the service-role profile-read grant have been applied to the configured Supabase project, and the public username/referral endpoints have been smoke-tested. Actual signup, username/email login, phone uniqueness, referrals, password recovery, suspension, and RLS behavior have not yet been end-to-end tested. Email confirmation is disabled; password recovery email delivery remains subject to Supabase's default mailer restrictions. Do not treat local build checks as live database verification.
+Local lint and production-build checks pass, all profile/referral migrations and the service-role profile-read grant have been applied to the configured Supabase project, and the public username/referral endpoints have been smoke-tested. Custom SMTP settings are saved in Supabase; successful delivery has not yet been confirmed with a test email. Actual signup, username/email login, phone uniqueness, referrals, password recovery, suspension, and RLS behavior have not yet been end-to-end tested. Email confirmation is disabled. Do not treat local build checks as live database verification.
 
 ## Advertising and rewards
 
@@ -38,6 +38,6 @@ Standard AdSense views and clicks cannot be rewarded. The Earn page does not cre
 ## Before launch
 
 - Replace the pre-launch privacy and terms drafts with accurate operator, jurisdiction, retention, support, and data-processing details.
-- Keep email confirmation disabled unless the product owner enables a suitable email delivery service and chooses to verify addresses.
+- Email confirmation remains disabled by product-owner choice. Enable it only if the product owner changes that decision.
 - Add an approved consent-management setup before enabling AdSense.
 - Do not reward standard AdSense ad views or clicks.
