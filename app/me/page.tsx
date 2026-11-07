@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
-import { signOut } from "../actions/auth";
-import ProfileSettings from "../components/ProfileSettings";
-import { createSupabaseServerClient, getCurrentUser } from "../../lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Me",
@@ -12,84 +8,27 @@ export const metadata: Metadata = {
 
 export default function MePage() {
   return (
-    <Suspense fallback={<main className="app-page"><div className="empty-state-card">Loading account…</div></main>}>
-      <MeContent />
-    </Suspense>
-  );
-}
-
-async function MeContent() {
-  const auth = await getCurrentUser();
-  const supabase = auth.user ? await createSupabaseServerClient() : null;
-  const { data: profile, error: profileError } =
-    supabase && auth.user
-      ? await supabase
-          .from("profiles")
-          .select("display_name, is_admin")
-          .eq("id", auth.user.id)
-          .maybeSingle()
-      : { data: null, error: null };
-  const displayName =
-    profile?.display_name ||
-    (typeof auth.user?.user_metadata.display_name === "string"
-      ? auth.user.user_metadata.display_name
-      : null) ||
-    auth.user?.email?.split("@")[0] ||
-    "Guest";
-  const accountError = auth.error ?? profileError?.message ?? null;
-
-  return (
     <main className="app-page public-page me-page">
       <header className="public-page__heading">
         <span className="eyebrow">ME · ACCOUNT</span>
-        <h1>Your account.</h1>
-        <p>Manage your profile, security, and preferences.</p>
+        <h1>Your profile.</h1>
+        <p>This site does not provide personal accounts or profile storage.</p>
       </header>
       <section className="profile-panel">
         <div className="profile-avatar" aria-hidden="true">
-          {displayName.slice(0, 1).toUpperCase()}
+          G
         </div>
         <div className="profile-panel__identity">
-          <strong>{displayName}</strong>
-          <span>{auth.user?.email ?? "Sign in to manage your account"}</span>
+          <strong>Guest</strong>
+          <span>Personal accounts are not available</span>
         </div>
-        <span className={`status-pill ${auth.user?.email_confirmed_at ? "status-pill--verified" : ""}`}>
-          {auth.user ? (auth.user.email_confirmed_at ? "Verified" : "Unverified") : "Guest"}
-        </span>
+        <span className="status-pill">Guest</span>
       </section>
       <section className="account-details">
-        <div className="account-detail"><span>EMAIL ADDRESS</span><strong>{auth.user?.email ?? "Not available"}</strong></div>
-        <div className="account-detail"><span>ACCOUNT ID</span><strong>{auth.user?.id ?? "Not assigned"}</strong></div>
-        <div className="account-detail">
-          <span>EMAIL STATUS</span>
-          <strong>{auth.user ? (auth.user.email_confirmed_at ? "Verified" : "Pending verification") : "Not signed in"}</strong>
-        </div>
+        <div className="account-detail"><span>EMAIL ADDRESS</span><strong>Not collected</strong></div>
+        <div className="account-detail"><span>ACCOUNT ID</span><strong>Not assigned</strong></div>
+        <div className="account-detail"><span>ACCOUNT STATUS</span><strong>No account service</strong></div>
       </section>
-      {accountError && <p className="form-message form-message--error" role="alert">{accountError}</p>}
-      {!auth.user && (
-        <section className="account-callout">
-          <div>
-            <span className="eyebrow">ACCOUNT</span>
-            <h2>Sign in or create an account</h2>
-            <p>{auth.configured ? "Your profile, referral link, and account settings require sign-in." : "Supabase account services are not configured yet."}</p>
-          </div>
-          <div className="button-row">
-            <Link className="button button--gold" href="/register">Create account</Link>
-            <Link className="button button--outline" href="/login">Sign in</Link>
-          </div>
-        </section>
-      )}
-      {auth.user && (
-        <section className="settings-section profile-settings-section">
-          <div className="section-heading">
-            <div>
-              <span className="eyebrow">PROFILE</span>
-              <h2>Edit profile</h2>
-            </div>
-          </div>
-          <ProfileSettings displayName={displayName} />
-        </section>
-      )}
       <section className="settings-section">
         <div className="section-heading">
           <div>
@@ -101,6 +40,10 @@ async function MeContent() {
           <div className="settings-row">
             <span><strong>Language</strong><small>English is currently the available language</small></span>
             <span className="settings-row__value">EN</span>
+          </div>
+          <div className="settings-row">
+            <span><strong>Profile &amp; security</strong><small>Unavailable without an account service</small></span>
+            <span className="settings-row__value">—</span>
           </div>
           <Link className="settings-row" href="/contact">
             <span><strong>Help &amp; support</strong><small>Contact information and site status</small></span>
@@ -114,20 +57,6 @@ async function MeContent() {
             <span><strong>Terms &amp; conditions</strong><small>Golden Rewards terms of use</small></span>
             <span className="settings-row__arrow" aria-hidden="true">↗</span>
           </Link>
-          {profile?.is_admin && (
-            <Link className="settings-row" href="/admin">
-              <span><strong>Admin · user metrics</strong><small>Restricted administrator tools</small></span>
-              <span className="settings-row__arrow" aria-hidden="true">↗</span>
-            </Link>
-          )}
-          {auth.user && (
-            <form action={signOut}>
-              <button className="settings-row settings-row--button" type="submit">
-                <span><strong>Log out</strong><small>End your Golden Rewards session</small></span>
-                <span className="settings-row__arrow" aria-hidden="true">→</span>
-              </button>
-            </form>
-          )}
         </div>
       </section>
       <aside className="guide-disclaimer">

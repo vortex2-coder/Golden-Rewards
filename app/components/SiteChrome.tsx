@@ -1,18 +1,9 @@
-import { getCurrentUser } from "../../lib/supabase/server";
-
-export default async function SiteChrome() {
-  const auth = await getCurrentUser();
-  const displayName = auth.user?.user_metadata.display_name;
-  const greetingName =
-    typeof displayName === "string" && displayName.trim()
-      ? displayName.trim()
-      : auth.user?.email?.split("@")[0] ?? "reader";
-
+export default function SiteChrome() {
   return (
     <>
       <header className="site-header">
         <div className="site-header__greeting">
-          <strong>hello, {greetingName}</strong>
+          <strong>hello, guest</strong>
           <span>Welcome to Golden Rewards</span>
         </div>
         <span className="language-chip" aria-label="Current language: English">

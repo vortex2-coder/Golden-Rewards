@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
-import { getCurrentUser } from "../../lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Wallet",
@@ -9,16 +7,6 @@ export const metadata: Metadata = {
 };
 
 export default function WalletPage() {
-  return (
-    <Suspense fallback={<main className="app-page"><div className="empty-state-card">Loading wallet status…</div></main>}>
-      <WalletContent />
-    </Suspense>
-  );
-}
-
-async function WalletContent() {
-  const auth = await getCurrentUser();
-
   return (
     <main className="app-page public-page wallet-page">
       <header className="public-page__heading">
@@ -34,7 +22,7 @@ async function WalletContent() {
           <span className="wallet-balance-card__chip" aria-hidden="true" />
         </div>
         <strong>$—</strong>
-        <small>{auth.user ? "No rewards ledger is connected to your account" : "Sign in to view account services"}</small>
+        <small>No rewards ledger is connected to this website</small>
         <button className="button button--muted" type="button" disabled>
           Withdraw
         </button>

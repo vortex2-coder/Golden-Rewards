@@ -25,14 +25,11 @@ export default function PrivacyPage() {
       </aside>
       <div className="guide-prose">
         <section>
-          <h2>Accounts and profile information</h2>
+          <h2>Account information</h2>
           <p>
-            When enabled, Golden Rewards uses Supabase Authentication to
-            create and secure accounts. Supabase stores account email,
-            display name, account identifier, referral code, and referral
-            attribution. Authentication cookies are used to maintain a
-            signed-in session. Configure the Supabase project’s privacy,
-            retention, and data-processing terms before launch.
+            This website does not currently provide account registration,
+            sign-in, profile storage, or referral tracking. Do not submit
+            account credentials or personal information through this site.
           </p>
         </section>
         <section>

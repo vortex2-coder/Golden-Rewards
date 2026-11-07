@@ -1,19 +1,6 @@
 import Link from "next/link";
-import { Suspense } from "react";
-import { getCurrentUser } from "../lib/supabase/server";
 
 export default function Home() {
-  return (
-    <Suspense fallback={<main className="app-page"><div className="empty-state-card">Loading your account…</div></main>}>
-      <HomeContent />
-    </Suspense>
-  );
-}
-
-async function HomeContent() {
-  const auth = await getCurrentUser();
-  const accountId = auth.user?.id.slice(0, 12).toUpperCase() ?? null;
-
   return (
     <main className="app-page home-page">
       <section
@@ -29,7 +16,7 @@ async function HomeContent() {
         </div>
         <div className="rewards-card__footer">
           <span>ACCOUNT IDENTIFIER</span>
-          <strong>{accountId ?? "Sign in to view"}</strong>
+          <strong>Unavailable</strong>
         </div>
       </section>
 
@@ -83,8 +70,8 @@ async function HomeContent() {
         <div className="summary-grid">
           <article className="summary-card">
             <span>Account</span>
-            <strong>{auth.user ? "Connected" : "Guest"}</strong>
-            <small>{auth.configured ? "Managed by Supabase" : "Account service needs configuration"}</small>
+            <strong>Guest</strong>
+            <small>Personal accounts are not available</small>
           </article>
           <article className="summary-card">
             <span>Reward activity</span>
@@ -93,20 +80,6 @@ async function HomeContent() {
           </article>
         </div>
       </section>
-
-      {!auth.user && (
-        <section className="account-callout">
-          <div>
-            <span className="eyebrow">GOLDEN REWARDS ACCOUNT</span>
-            <h2>Sign in or create an account</h2>
-            <p>{auth.error ?? "Use your account to manage your profile and referral link."}</p>
-          </div>
-          <div className="button-row">
-            <Link className="button button--gold" href="/register">Create account</Link>
-            <Link className="button button--outline" href="/login">Sign in</Link>
-          </div>
-        </section>
-      )}
 
       <aside className="notice-card">
         <strong>Ad views are not rewarded</strong>

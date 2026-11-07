@@ -24,12 +24,11 @@ export default function TermsPage() {
       </aside>
       <div className="guide-prose">
         <section>
-          <h2>Accounts</h2>
+          <h2>Accounts and referrals</h2>
           <p>
-            Account registration and authentication are provided through
-            Supabase when configured. Users must provide accurate account
-            details and protect their sign-in credentials. Account creation
-            does not grant eligibility for earnings or payments.
+            This website does not currently support account registration,
+            authentication, profile management, or referral tracking. Do not
+            submit passwords or personal account details through this site.
           </p>
         </section>
         <section>
@@ -41,15 +40,6 @@ export default function TermsPage() {
             and clicks do not create an account balance or payment claim.
             The project does not currently operate a funded earnings ledger,
             withdrawal service, or referral reward program.
-          </p>
-        </section>
-        <section>
-          <h2>Referral links</h2>
-          <p>
-            Referral links may attribute account registrations to the
-            referring account. Referral attribution does not promise a
-            reward. Do not create duplicate or misleading registrations or
-            share invitations as unsolicited bulk messages.
           </p>
         </section>
         <section>
