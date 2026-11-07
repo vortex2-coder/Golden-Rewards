@@ -2,6 +2,10 @@
 
 Golden Rewards is a responsive, dark account and advertising application built with Next.js, TypeScript, and Supabase. Its five user navigation destinations are Home, Earn, Team, Wallet, and Me. A separate `/admin` route is protected by a database-verified admin role.
 
+**Live website:** [golden-rewards.vercel.app](https://golden-rewards.vercel.app/)
+
+The GitHub Pages project URL redirects to the live Vercel application. GitHub Pages cannot run the Next.js server features required for authentication and account actions.
+
 ## Run locally
 
 ```bash
