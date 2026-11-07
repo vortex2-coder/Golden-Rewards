@@ -15,6 +15,11 @@ type ReferralSummary = {
   pending: number;
 };
 
+type ReferralHistoryEntry = {
+  joined_at: string;
+  email_confirmed: boolean;
+};
+
 export default function TeamPage() {
   return (
     <Suspense fallback={<main className="app-page"><div className="empty-state-card">Loading referral information…</div></main>}>
@@ -28,10 +33,15 @@ async function TeamContent() {
   const supabase = auth.user ? await createSupabaseServerClient() : null;
   let referralCode: string | null = null;
   let summary: ReferralSummary | null = null;
+  let history: ReferralHistoryEntry[] = [];
   let dataError: string | null = auth.error;
 
   if (supabase && auth.user) {
-    const [{ data: profile, error: profileError }, { data: summaryData, error: summaryError }] =
+    const [
+      { data: profile, error: profileError },
+      { data: summaryData, error: summaryError },
+      { data: historyData, error: historyError },
+    ] =
       await Promise.all([
         supabase
           .from("profiles")
@@ -39,6 +49,7 @@ async function TeamContent() {
           .eq("id", auth.user.id)
           .maybeSingle(),
         supabase.rpc("get_referral_summary"),
+        supabase.rpc("get_referral_history"),
       ]);
 
     if (profileError) {
@@ -52,14 +63,20 @@ async function TeamContent() {
     } else {
       summary = summaryData?.[0] ?? null;
     }
+
+    if (historyError) {
+      dataError = `Could not load referral history: ${historyError.message}`;
+    } else {
+      history = historyData ?? [];
+    }
   }
 
   return (
     <main className="app-page public-page team-page">
       <header className="public-page__heading">
         <span className="eyebrow">TEAM · REFERRALS</span>
-        <h1>Invite your community.</h1>
-        <p>Share your unique signup link and see how many people confirm their account.</p>
+        <h1>Grow your team.</h1>
+        <p>Invite friends with your personal link and follow their signup status.</p>
       </header>
       {auth.user && referralCode ? (
         <section className="referral-panel">
@@ -70,7 +87,7 @@ async function TeamContent() {
             </div>
             <span className="status-pill">Active</span>
           </div>
-          <p>Signups are attributed once when an account is created. AdSense views do not earn referral rewards.</p>
+          <p>Signups are attributed once at registration. Referral bonuses are not enabled.</p>
           <ReferralShare referralCode={referralCode} />
           <p className="referral-code-label">Your code: <strong>{referralCode}</strong></p>
         </section>
@@ -101,10 +118,10 @@ async function TeamContent() {
         </div>
         {summary ? (
           <div className="summary-grid summary-grid--four">
-            <article className="summary-card"><span>Invited</span><strong>{summary.invited}</strong></article>
-            <article className="summary-card"><span>Confirmed</span><strong>{summary.confirmed}</strong></article>
-            <article className="summary-card"><span>Pending email</span><strong>{summary.pending}</strong></article>
-            <article className="summary-card"><span>Referral rewards</span><strong>Not offered</strong></article>
+            <article className="summary-card"><span>Total invited</span><strong>{summary.invited}</strong></article>
+            <article className="summary-card"><span>Successful</span><strong>{summary.confirmed}</strong></article>
+            <article className="summary-card"><span>Pending</span><strong>{summary.pending}</strong></article>
+            <article className="summary-card"><span>Referral earnings</span><strong>Not offered</strong></article>
           </div>
         ) : (
           <div className="empty-state-card">
@@ -113,9 +130,39 @@ async function TeamContent() {
           </div>
         )}
       </section>
-      <aside className="guide-disclaimer">
-        Golden Rewards tracks signups only. It does not pay referral bonuses or reward AdSense activity.
-      </aside>
+      {auth.user && (
+        <section className="wallet-section referral-history">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">RECENT SIGNUPS</span>
+              <h2>Referral history</h2>
+            </div>
+            <span className="status-pill">{history.length} total</span>
+          </div>
+          {history.length ? (
+            <ul className="referral-history__list">
+              {history.map((entry, index) => (
+                <li className="referral-history__item" key={`${entry.joined_at}-${index}`}>
+                  <span className="referral-history__avatar" aria-hidden="true">G</span>
+                  <span className="referral-history__details">
+                    <strong>Golden Rewards member</strong>
+                    <small>{new Date(entry.joined_at).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })}</small>
+                  </span>
+                  <span className={`referral-history__status ${entry.email_confirmed ? "is-confirmed" : ""}`}>
+                    {entry.email_confirmed ? "Confirmed" : "Pending"}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="empty-state-card">
+              <h3>No referrals yet</h3>
+              <p>Members who register with your link will appear here.</p>
+            </div>
+          )}
+        </section>
+      )}
+      <aside className="guide-disclaimer">Referral earnings are not enabled; this page reports signup activity only.</aside>
     </main>
   );
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { signOut } from "../actions/auth";
+import ProfileSettings from "../components/ProfileSettings";
 import { createSupabaseServerClient, getCurrentUser } from "../../lib/supabase/server";
 
 export const metadata: Metadata = {
@@ -41,8 +42,8 @@ async function MeContent() {
     <main className="app-page public-page me-page">
       <header className="public-page__heading">
         <span className="eyebrow">ME · ACCOUNT</span>
-        <h1>Your profile and preferences.</h1>
-        <p>Manage account access and find Golden Rewards information.</p>
+        <h1>Your account.</h1>
+        <p>Manage your profile, security, and preferences.</p>
       </header>
       <section className="profile-panel">
         <div className="profile-avatar" aria-hidden="true">
@@ -50,16 +51,18 @@ async function MeContent() {
         </div>
         <div className="profile-panel__identity">
           <strong>{displayName}</strong>
-          <span>{auth.user ? "Golden Rewards account" : "Not signed in"}</span>
+          <span>{auth.user?.email ?? "Sign in to manage your account"}</span>
         </div>
-        <span className="status-pill">{auth.user ? "Member" : "Guest"}</span>
+        <span className={`status-pill ${auth.user?.email_confirmed_at ? "status-pill--verified" : ""}`}>
+          {auth.user ? (auth.user.email_confirmed_at ? "Verified" : "Unverified") : "Guest"}
+        </span>
       </section>
       <section className="account-details">
-        <div className="account-detail"><span>Email address</span><strong>{auth.user?.email ?? "Not available"}</strong></div>
-        <div className="account-detail"><span>Account ID</span><strong>{auth.user?.id ?? "Not assigned"}</strong></div>
+        <div className="account-detail"><span>EMAIL ADDRESS</span><strong>{auth.user?.email ?? "Not available"}</strong></div>
+        <div className="account-detail"><span>ACCOUNT ID</span><strong>{auth.user?.id ?? "Not assigned"}</strong></div>
         <div className="account-detail">
-          <span>Email verification</span>
-          <strong>{auth.user ? (auth.user.email_confirmed_at ? "Verified" : "Pending") : "Not signed in"}</strong>
+          <span>EMAIL STATUS</span>
+          <strong>{auth.user ? (auth.user.email_confirmed_at ? "Verified" : "Pending verification") : "Not signed in"}</strong>
         </div>
       </section>
       {accountError && <p className="form-message form-message--error" role="alert">{accountError}</p>}
@@ -76,26 +79,29 @@ async function MeContent() {
           </div>
         </section>
       )}
+      {auth.user && (
+        <section className="settings-section profile-settings-section">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">PROFILE</span>
+              <h2>Edit profile</h2>
+            </div>
+          </div>
+          <ProfileSettings displayName={displayName} />
+        </section>
+      )}
       <section className="settings-section">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">ACCOUNT</span>
+            <span className="eyebrow">PREFERENCES</span>
             <h2>Settings &amp; support</h2>
           </div>
         </div>
         <div className="settings-list">
           <div className="settings-row">
-            <span><strong>Edit profile</strong><small>Profile editing is not configured</small></span>
-            <span className="settings-row__value">—</span>
-          </div>
-          <div className="settings-row">
-            <span><strong>Language preferences</strong><small>English · only language currently available</small></span>
+            <span><strong>Language</strong><small>English is currently the available language</small></span>
             <span className="settings-row__value">EN</span>
           </div>
-          <Link className="settings-row" href="/login">
-            <span><strong>Password &amp; security</strong><small>Sign-in and email confirmation are managed by Supabase</small></span>
-            <span className="settings-row__arrow" aria-hidden="true">↗</span>
-          </Link>
           <Link className="settings-row" href="/contact">
             <span><strong>Help &amp; support</strong><small>Contact information and site status</small></span>
             <span className="settings-row__arrow" aria-hidden="true">↗</span>

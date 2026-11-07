@@ -5,7 +5,7 @@ Golden Rewards is a responsive, dark account and advertising application built w
 ## Run locally
 
 ```bash
-Copy `.env.example` to `.env.local`, configure the Supabase URL and anon key, and apply `supabase/migrations/20261107000100_create_profiles_and_admin_metrics.sql` to your Supabase project. Then run:
+Copy `.env.example` to `.env.local`, configure the Supabase URL and anon key, and apply the SQL migrations in `supabase/migrations` in filename order. Then run:
 
 ```bash
 npm install
@@ -21,6 +21,8 @@ The Earn page supports standard Google AdSense display placements when configure
 **Standard AdSense views and clicks cannot be rewarded.** This project deliberately has no watch-ad reward, crediting, balance, or withdrawal flow. An approved, separate rewarded-ad provider with server-verified completion callbacks would be required before adding any incentivized activity.
 
 Supabase Auth supports account registration and sign-in. The profile migration generates unique referral codes and records signup attribution. Referral activity is not paid. `/admin` displays the registered profile count only to users whose `profiles.is_admin` value is set by a trusted project owner. It does not claim to measure currently online users.
+
+The referral history migration adds an authenticated, read-only summary of each user's referred signups without exposing their invitees' email addresses. The Me page allows signed-in users to update their profile name and change their password after verifying the current password.
 
 ## Admin setup
 

@@ -12,46 +12,65 @@ export default function EarnPage() {
     <main className="app-page public-page earn-page">
       <header className="public-page__heading">
         <span className="eyebrow">EARN</span>
-        <h1>Advertising, clearly explained.</h1>
+        <h1>Discover earning opportunities.</h1>
         <p>
-          Golden Rewards may display standard advertisements. Viewing or
-          clicking those ads does not earn points, money, or account credit.
+          Explore verified opportunities when they become available. Standard
+          display ads are never paid watch tasks.
         </p>
       </header>
-      <section className="availability-card" aria-labelledby="earning-status-title">
-        <div className="availability-card__icon" aria-hidden="true">i</div>
-        <div>
-          <span className="eyebrow">ADVERTISING MODEL</span>
-          <h2 id="earning-status-title">Standard display advertising</h2>
-          <p>AdSense chooses the ads shown in configured placements. Golden Rewards does not upload individual ads or pay users to view or click them.</p>
-        </div>
-      </section>
-      <section className="ad-section">
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">ADVERTISEMENT</span>
-            <h2>Sponsored placement</h2>
+      <section className="earn-status-card" aria-labelledby="earning-status-title">
+        <div className="earn-status-card__heading">
+          <div className="earn-status-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3v18M17 7.5c0-1.7-2.2-3-5-3s-5 1.3-5 3 2.2 3 5 3 5 1.3 5 3-2.2 3-5 3-5-1.3-5-3" /></svg>
           </div>
-          <span className="status-pill">Not a task</span>
+          <div>
+            <span className="eyebrow">OPPORTUNITIES</span>
+            <h2 id="earning-status-title">No verified tasks available</h2>
+          </div>
         </div>
-        <AdSenseSlot />
+        <p>Rewarded tasks will appear here only when a partner can verify completion. No activity is credited automatically.</p>
+        <div className="earn-progress">
+          <div><span>Task completion</span><strong>0 available</strong></div>
+          <span className="earn-progress__track" aria-label="No tasks available"><span /></span>
+        </div>
       </section>
+
       <div className="summary-grid">
         <article className="summary-card">
-          <span>Paid watch tasks</span>
+          <span>Daily opportunities</span>
           <strong>Not available</strong>
-          <small>AdSense views cannot be rewarded</small>
+          <small>No verified earning tasks are configured</small>
         </article>
         <article className="summary-card">
-          <span>Reward progress</span>
+          <span>Completed tasks</span>
           <strong>Not tracked</strong>
-          <small>Ad views do not create an earning record</small>
+          <small>No task completion ledger is connected</small>
         </article>
       </div>
-      <section className="empty-state-card">
-        <span className="eyebrow">COMPLETED AD ACTIVITY</span>
-        <h2>No rewarded activity</h2>
-        <p>Standard display ads do not have a reward completion callback and are not credited to a user wallet.</p>
+
+      <section className="ad-section earn-ad-section">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">SPONSORED CONTENT</span>
+            <h2>Display advertisement</h2>
+          </div>
+          <span className="status-pill">Not rewarded</span>
+        </div>
+        <AdSenseSlot />
+        <p className="supporting-copy">AdSense selects the ads displayed here. Viewing or clicking them does not create an earning record.</p>
+      </section>
+      <section className="wallet-section earn-history">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">ACTIVITY</span>
+            <h2>Completed tasks</h2>
+          </div>
+          <span className="status-pill">No history</span>
+        </div>
+        <div className="empty-state-card">
+          <h3>No completed tasks yet</h3>
+          <p>Only confirmed completions from a supported rewards partner can appear in your activity.</p>
+        </div>
       </section>
     </main>
   );
