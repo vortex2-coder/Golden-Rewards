@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AuthenticatedPage } from "../components/AuthenticatedPage";
 
 export const metadata: Metadata = {
   title: "Wallet",
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
 
 export default function WalletPage() {
   return (
+    <AuthenticatedPage>
     <main className="app-page public-page wallet-page">
       <header className="public-page__heading">
         <span className="eyebrow">WALLET</span>
@@ -68,5 +70,6 @@ export default function WalletPage() {
         </div>
       </section>
     </main>
+    </AuthenticatedPage>
   );
 }

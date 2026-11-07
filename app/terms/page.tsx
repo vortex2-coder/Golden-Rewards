@@ -26,9 +26,12 @@ export default function TermsPage() {
         <section>
           <h2>Accounts and referrals</h2>
           <p>
-            This website does not currently support account registration,
-            authentication, profile management, or referral tracking. Do not
-            submit passwords or personal account details through this site.
+            Account registration requires a verified email address and
+            accurate profile information. Keep your password confidential and
+            notify the operator if you believe your account has been
+            compromised. Referral invitations are recorded for attribution;
+            no referral reward is payable unless the operator publishes
+            qualifying rules.
           </p>
         </section>
         <section>

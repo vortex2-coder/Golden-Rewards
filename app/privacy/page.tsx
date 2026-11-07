@@ -27,9 +27,14 @@ export default function PrivacyPage() {
         <section>
           <h2>Account information</h2>
           <p>
-            This website does not currently provide account registration,
-            sign-in, profile storage, or referral tracking. Do not submit
-            account credentials or personal information through this site.
+            When registration is enabled, Golden Rewards processes the name,
+            username, email address, country, phone number, password
+            credentials, verification status, and referral attribution needed
+            to create and secure an account. Passwords are handled by the
+            authentication provider and are not stored as plain text by this
+            application. Profile access is restricted by account-level
+            database policies. The operator must confirm its retention,
+            deletion, and data-request procedures before launch.
           </p>
         </section>
         <section>

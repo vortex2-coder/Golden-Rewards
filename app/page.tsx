@@ -1,6 +1,11 @@
 import Link from "next/link";
+import { AuthenticatedPage } from "./components/AuthenticatedPage";
+import { getCurrentMember } from "@/lib/supabase/server";
 
-export default function Home() {
+async function HomeContent() {
+  const member = await getCurrentMember();
+  if (!member.profile) throw new Error("Could not load the signed-in member profile.");
+
   return (
     <main className="app-page home-page">
       <section
@@ -16,7 +21,7 @@ export default function Home() {
         </div>
         <div className="rewards-card__footer">
           <span>ACCOUNT IDENTIFIER</span>
-          <strong>Unavailable</strong>
+          <strong>{member.profile.id}</strong>
         </div>
       </section>
 
@@ -70,8 +75,8 @@ export default function Home() {
         <div className="summary-grid">
           <article className="summary-card">
             <span>Account</span>
-            <strong>Guest</strong>
-            <small>Personal accounts are not available</small>
+            <strong>@{member.profile.username}</strong>
+            <small>{member.profile.email_confirmed_at ? "Email verified" : "Email not verified"}</small>
           </article>
           <article className="summary-card">
             <span>Reward activity</span>
@@ -87,5 +92,13 @@ export default function Home() {
         <Link href="/earn">View advertising information <span aria-hidden="true">→</span></Link>
       </aside>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <AuthenticatedPage>
+      <HomeContent />
+    </AuthenticatedPage>
   );
 }

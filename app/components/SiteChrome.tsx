@@ -1,9 +1,23 @@
+import { getCurrentMember } from "@/lib/supabase/server";
+
 export default function SiteChrome() {
+  const memberPromise = getCurrentMember();
+  return <SiteChromeContent memberPromise={memberPromise} />;
+}
+
+async function SiteChromeContent({
+  memberPromise,
+}: {
+  memberPromise: ReturnType<typeof getCurrentMember>;
+}) {
+  const member = await memberPromise;
+  const greetingName = member.profile?.username ?? "guest";
+
   return (
     <>
       <header className="site-header">
         <div className="site-header__greeting">
-          <strong>hello, guest</strong>
+          <strong>hello, {greetingName}</strong>
           <span>Welcome to Golden Rewards</span>
         </div>
         <span className="language-chip" aria-label="Current language: English">

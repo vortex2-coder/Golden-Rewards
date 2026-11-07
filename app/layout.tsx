@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import "./premium.css";
-import BottomNavigation from "./components/BottomNavigation";
+import AuthenticatedNavigation from "./components/AuthenticatedNavigation";
 import SiteChrome from "./components/SiteChrome";
 
 export const metadata: Metadata = {
@@ -28,9 +28,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }>
             <SiteChrome />
           </Suspense>
-          {children}
+          <Suspense fallback={null}>{children}</Suspense>
         </div>
-        <BottomNavigation />
+        <Suspense fallback={null}>
+          <AuthenticatedNavigation />
+        </Suspense>
       </body>
     </html>
   );

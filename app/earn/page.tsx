@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AuthenticatedPage } from "../components/AuthenticatedPage";
 import AdSenseSlot from "../components/AdSenseSlot";
 
 export const metadata: Metadata = {
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 
 export default function EarnPage() {
   return (
+    <AuthenticatedPage>
     <main className="app-page public-page earn-page">
       <header className="public-page__heading">
         <span className="eyebrow">EARN</span>
@@ -73,5 +75,6 @@ export default function EarnPage() {
         </div>
       </section>
     </main>
+    </AuthenticatedPage>
   );
 }
