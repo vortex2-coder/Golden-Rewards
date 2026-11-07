@@ -355,7 +355,7 @@ export function SignupForm({ initialReferral = "", configured }: { initialReferr
       <div className="auth-field">
         <label htmlFor="signup-email">Email address</label>
         <input id="signup-email" name="email" type="email" autoComplete="email" maxLength={254} required />
-        <small>We’ll send a verification link to this address.</small>
+        <small>Email addresses are not verified during registration.</small>
       </div>
       <CountryPhoneField />
       <ReferralField initialValue={initialReferral} configured={configured} />
@@ -383,8 +383,8 @@ export function SignupForm({ initialReferral = "", configured }: { initialReferr
       </label>
       <Feedback state={state} />
       {state.success ? (
-        <Link className="button button--gold auth-submit" href="/verify-email">
-          Continue to email verification
+        <Link className="button button--gold auth-submit" href="/login">
+          Continue to log in
         </Link>
       ) : (
         <button className="button button--gold auth-submit" type="submit" disabled={pending}>
@@ -454,6 +454,11 @@ export function ForgotPasswordForm({ configured }: { configured: boolean }) {
   return (
     <form className="auth-form" action={formAction}>
       {!configured && <div className="auth-setup-notice" role="status">Password recovery becomes available after Supabase is configured.</div>}
+      {configured && (
+        <div className="auth-setup-notice" role="status">
+          Supabase’s default email service is restricted to organization team addresses. Public password reset emails may not be delivered.
+        </div>
+      )}
       <div className="auth-field">
         <label htmlFor="reset-email">Email address</label>
         <input id="reset-email" name="email" type="email" autoComplete="email" required />

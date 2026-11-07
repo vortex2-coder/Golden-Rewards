@@ -30,7 +30,7 @@ async function MeContent() {
           <strong>{profile.first_name} {profile.last_name}</strong>
           <span>@{profile.username}</span>
         </div>
-        <span className="status-pill">{profile.email_confirmed_at ? "Verified" : "Unverified"}</span>
+        <span className="status-pill">Email not verified</span>
       </section>
       <section className="account-details">
         <div className="account-detail"><span>EMAIL ADDRESS</span><strong>{profile.email}</strong></div>
@@ -58,7 +58,7 @@ async function MeContent() {
             <span className="settings-row__value">EN</span>
           </div>
           <Link className="settings-row" href="/forgot-password">
-            <span><strong>Password &amp; security</strong><small>Request a secure password reset link</small></span>
+            <span><strong>Password &amp; security</strong><small>Password reset emails may be unavailable to public addresses</small></span>
             <span className="settings-row__arrow" aria-hidden="true">↗</span>
           </Link>
           <Link className="settings-row" href="/contact">

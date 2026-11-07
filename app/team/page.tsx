@@ -11,7 +11,6 @@ export const metadata: Metadata = {
 type ReferralRecord = {
   username: string;
   created_at: string;
-  email_confirmed: boolean;
 };
 
 async function TeamContent() {
@@ -32,6 +31,7 @@ async function TeamContent() {
 
   const summary = summaryResult.data?.[0];
   const referralHistory: ReferralRecord[] = historyResult.data ?? [];
+  const totalInvited = summary?.total_invited ?? 0;
 
   return (
     <main className="app-page public-page team-page">
@@ -51,18 +51,18 @@ async function TeamContent() {
         <div className="summary-grid">
           <article className="summary-card">
             <span>Total invited</span>
-            <strong>{summary?.total_invited ?? 0}</strong>
+            <strong>{totalInvited}</strong>
             <small>Accounts attributed to your link</small>
           </article>
           <article className="summary-card">
-            <span>Verified referrals</span>
-            <strong>{summary?.successful_referrals ?? 0}</strong>
-            <small>Email address verified</small>
+            <span>Successful referrals</span>
+            <strong>{totalInvited}</strong>
+            <small>Registered accounts attributed to your link</small>
           </article>
           <article className="summary-card">
             <span>Pending referrals</span>
-            <strong>{summary?.pending_referrals ?? 0}</strong>
-            <small>Awaiting email verification</small>
+            <strong>0</strong>
+            <small>Unfinished signups are not recorded</small>
           </article>
           <article className="summary-card">
             <span>Referral earnings</span>
@@ -93,9 +93,7 @@ async function TeamContent() {
                   <strong>@{referral.username}</strong>
                   <small>Joined {new Date(referral.created_at).toLocaleDateString()}</small>
                 </span>
-                <span className={`status-pill ${referral.email_confirmed ? "" : "status-pill--muted"}`}>
-                  {referral.email_confirmed ? "Verified" : "Pending"}
-                </span>
+                <span className="status-pill">Registered</span>
               </article>
             ))}
           </div>

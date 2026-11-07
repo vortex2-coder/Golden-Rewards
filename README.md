@@ -18,16 +18,18 @@ Without Supabase environment variables, account forms display setup guidance and
 3. Keep `SUPABASE_SECRET_KEY` server-only. Never prefix it with `NEXT_PUBLIC_` or expose it in browser code.
 4. Run the migrations in order in the Supabase SQL Editor: `supabase/migrations/20260417000100_auth_profiles_and_referrals.sql`, then `supabase/migrations/20260417000200_grant_service_role_profile_read.sql`.
 5. In Supabase Auth URL Configuration, set the site URL and allow the local and production callback URLs ending in `/auth/callback`.
-6. Configure email confirmation and password recovery email templates to redirect through `/auth/callback`. Verify the sender and delivery settings before inviting real users.
+6. Email confirmation is disabled for this deployment at the owner's request. Supabase's default email service is restricted to organization team addresses and a low rate limit; public password-reset emails will not be reliable without custom SMTP.
 7. Add the same public and server-only environment variables to the production hosting environment and redeploy.
 
 The migrations create the profile table, case-insensitive username and email uniqueness rules, E.164 phone uniqueness, immutable referral attribution, account status, profile RLS, and narrowly scoped referral/username RPCs. The follow-up grant allows the server-side service-role client to read profiles for username-to-email login resolution and duplicate phone checks. Referral lookups return only a username and referral code; referral history does not expose email addresses or phone numbers.
 
-The signup flow validates names, username, email, country/phone number, optional referral, password confirmation, and terms acceptance on the server. Phone validation uses the full ISO country-name dataset and libphonenumber-js; phone numbers are stored in E.164 format. The database trigger generates each member's unique referral code and resolves the submitted invitation reference to the referrer's user ID. Email verification returns through the auth callback before the member can enter protected pages.
+The signup flow validates names, username, email, country/phone number, optional referral, password confirmation, and terms acceptance on the server. Phone validation uses the full ISO country-name dataset and libphonenumber-js; phone numbers are stored in E.164 format. The database trigger generates each member's unique referral code and resolves the submitted invitation reference to the referrer's user ID. Email addresses are not verified during registration.
+
+Referral counts represent registered accounts only. Because email confirmation is disabled, the app does not label referrals as email-verified; unfinished signup attempts are not stored as pending referrals.
 
 ## Verification limitations
 
-Local lint and production-build checks pass, and the base profile/referral migration has been applied to the configured Supabase project. The follow-up service-role grant still needs to be applied before username login and server-side duplicate-phone checks can work. Actual email delivery, signup, username/email login, phone uniqueness, referrals, password recovery, suspension, and RLS behavior have not yet been end-to-end tested. Do not treat local build checks as live database verification.
+Local lint and production-build checks pass, all profile/referral migrations and the service-role profile-read grant have been applied to the configured Supabase project, and the public username/referral endpoints have been smoke-tested. Actual signup, username/email login, phone uniqueness, referrals, password recovery, suspension, and RLS behavior have not yet been end-to-end tested. Email confirmation is disabled; password recovery email delivery remains subject to Supabase's default mailer restrictions. Do not treat local build checks as live database verification.
 
 ## Advertising and rewards
 
@@ -36,6 +38,6 @@ Standard AdSense views and clicks cannot be rewarded. The Earn page does not cre
 ## Before launch
 
 - Replace the pre-launch privacy and terms drafts with accurate operator, jurisdiction, retention, support, and data-processing details.
-- Configure and verify Supabase Auth email templates, site URLs, sender settings, and production environment variables.
+- Keep email confirmation disabled unless the product owner enables a suitable email delivery service and chooses to verify addresses.
 - Add an approved consent-management setup before enabling AdSense.
 - Do not reward standard AdSense ad views or clicks.

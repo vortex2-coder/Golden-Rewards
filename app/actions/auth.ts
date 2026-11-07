@@ -157,7 +157,7 @@ export async function signUpAction(
   if (data.session) redirect("/");
 
   return {
-    success: "Your account has been created. Check your inbox for the verification email before signing in.",
+    success: "Your account has been created. You can now sign in.",
   };
 }
 
@@ -203,9 +203,6 @@ export async function loginAction(
     return { error: "A network error interrupted sign-in. Please try again." };
   }
   const { data, error } = login;
-  if (error?.code === "email_not_confirmed") {
-    return { error: "Verify your email address using the link we sent before signing in." };
-  }
   if (error || !data.user) return { error: "The username/email or password is incorrect." };
 
   let profileResult;
