@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
+import { getAdSenseSettings } from "@/lib/adsense";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getCurrentMember } from "@/lib/supabase/server";
+import AdSenseSettingsForm from "./AdSenseSettingsForm";
 
 export const metadata: Metadata = {
   title: "Admin overview",
@@ -67,6 +69,7 @@ export default async function AdminPage() {
   }
 
   const overview = await getAdminOverview();
+  const adSenseSettings = await getAdSenseSettings();
 
   return (
     <main className="app-page public-page">
@@ -88,9 +91,9 @@ export default async function AdminPage() {
         <>
           <section className="summary-grid" aria-label="Account overview">
             <article className="summary-card">
-              <span>Total members</span>
+              <span>Total users registered</span>
               <strong>{overview.memberCount}</strong>
-              <small>Registered profiles</small>
+              <small>All registered platform accounts</small>
             </article>
             <article className="summary-card">
               <span>Suspended accounts</span>
@@ -137,10 +140,36 @@ export default async function AdminPage() {
             )}
           </section>
 
+          <section className="wallet-section" aria-labelledby="adsense-settings-title">
+            <div className="section-heading">
+              <div>
+                <span className="eyebrow">ADVERTISING</span>
+                <h2 id="adsense-settings-title">Google AdSense</h2>
+              </div>
+              <span className="status-pill">
+                {adSenseSettings?.enabled ? "Enabled" : "Disabled"}
+              </span>
+            </div>
+            {adSenseSettings ? (
+              <AdSenseSettingsForm
+                enabled={adSenseSettings.enabled}
+                clientId={adSenseSettings.clientId}
+                slotId={adSenseSettings.slotId}
+              />
+            ) : (
+              <div className="empty-state-card" role="status">
+                <h3>Ad settings are unavailable</h3>
+                <p>
+                  Configure the server-side Supabase service key and apply the
+                  AdSense settings migration before adding an ad unit.
+                </p>
+              </div>
+            )}
+          </section>
+
           <aside className="guide-disclaimer">
-            Account-only overview. Reward approvals, withdrawals, and payment
-            management are not available because no rewards ledger or payout
-            service is configured.
+            Reward approvals, withdrawals, and payment management are not
+            available because no rewards ledger or payout service is configured.
           </aside>
         </>
       )}

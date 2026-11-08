@@ -9,11 +9,15 @@ declare global {
   }
 }
 
-const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
-const slotId = process.env.NEXT_PUBLIC_ADSENSE_SLOT_ID;
-const enabled = process.env.NEXT_PUBLIC_ADSENSE_ENABLED === "true";
-
-export default function AdSenseSlot() {
+export default function AdSenseSlot({
+  clientId,
+  slotId,
+  enabled,
+}: {
+  clientId: string;
+  slotId: string;
+  enabled: boolean;
+}) {
   const configured = enabled && clientId && slotId;
   const [loadError, setLoadError] = useState(false);
 

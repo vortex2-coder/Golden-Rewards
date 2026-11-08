@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AuthenticatedPage } from "../components/AuthenticatedPage";
 import AdSenseSlot from "../components/AdSenseSlot";
+import { getAdSenseSettings } from "@/lib/adsense";
 
 export const metadata: Metadata = {
   title: "Earn",
@@ -8,7 +9,9 @@ export const metadata: Metadata = {
     "Advertising on Golden Rewards. Standard Google AdSense ads are not compensated user activities.",
 };
 
-export default function EarnPage() {
+export default async function EarnPage() {
+  const adSenseSettings = await getAdSenseSettings();
+
   return (
     <AuthenticatedPage>
     <main className="app-page public-page earn-page">
@@ -58,7 +61,11 @@ export default function EarnPage() {
           </div>
           <span className="status-pill">Not rewarded</span>
         </div>
-        <AdSenseSlot />
+        <AdSenseSlot
+          clientId={adSenseSettings?.clientId ?? ""}
+          slotId={adSenseSettings?.slotId ?? ""}
+          enabled={adSenseSettings?.enabled ?? false}
+        />
         <p className="supporting-copy">AdSense selects the ads displayed here. Viewing or clicking them does not create an earning record.</p>
       </section>
       <section className="wallet-section earn-history">

@@ -941,6 +941,61 @@ select:focus-visible {
   padding: 16px;
 }
 
+.admin-ads-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.admin-ads-form__field {
+  display: grid;
+  gap: 6px;
+  color: #d6d1c5;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.admin-ads-form__field input {
+  width: 100%;
+  min-height: 43px;
+  padding: 0 12px;
+  border: 1px solid #35332d;
+  border-radius: 11px;
+  background: #101010;
+  color: var(--text);
+  font-size: 11px;
+}
+
+.admin-ads-form__toggle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #d6d1c5;
+  font-size: 10px;
+}
+
+.admin-ads-form__toggle input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--gold);
+}
+
+.admin-ads-form .supporting-copy {
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.65;
+}
+
+.admin-ads-form .button {
+  justify-self: start;
+  min-height: 41px;
+}
+
+.form-message--success {
+  color: #a9d8ae;
+}
+
 .wallet-section > .button {
   margin-top: 13px;
 }
