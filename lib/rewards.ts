@@ -1,0 +1,109 @@
+import "server-only";
+
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+
+export type EarningTask = {
+  id: string;
+  partner_name: string;
+  title: string;
+  description: string;
+  reward_usd: number;
+};
+
+export type RewardLedgerEntry = {
+  id: string;
+  partner_name: string;
+  amount_usd: number;
+  status: "approved" | "reversed";
+  created_at: string;
+};
+
+export async function getActiveEarningTasks() {
+  const supabase = createSupabaseAdminClient();
+  if (!supabase) return { tasks: null, error: "Earning tasks are not configured." };
+
+  const { data, error } = await supabase
+    .from("earning_tasks")
+    .select("id, partner_name, title, description, reward_usd")
+    .eq("is_active", true)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Could not load active partner earning tasks.", error);
+    return {
+      tasks: null,
+      error: "Partner earning tasks are unavailable. Apply the rewards database migration to enable them.",
+    };
+  }
+  return { tasks: data as EarningTask[], error: null };
+}
+
+export async function getMemberRewardHistory(limit = 50) {
+  const supabase = await createSupabaseServerClient();
+  if (!supabase) return { entries: null, error: "Reward history is unavailable." };
+
+  const { data, error } = await supabase
+    .from("reward_ledger")
+    .select("id, partner_name, amount_usd, status, created_at")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error("Could not load the member's reward ledger.", error);
+    return {
+      entries: null,
+      error: "Reward history is unavailable. Apply the rewards database migration to enable it.",
+    };
+  }
+  return { entries: data as RewardLedgerEntry[], error: null };
+}
+
+export async function getMemberRewardSummary() {
+  const supabase = await createSupabaseServerClient();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase.rpc("get_my_reward_summary");
+  if (error) {
+    console.error("Could not load the member's reward summary.", error);
+    return null;
+  }
+
+  const summary = data?.[0];
+  if (!summary) return { approvedUsd: 0, reversedUsd: 0, completedTasks: 0 };
+  return {
+    approvedUsd: Number(summary.approved_usd),
+    reversedUsd: Number(summary.reversed_usd),
+    completedTasks: Number(summary.completed_tasks),
+  };
+}
+
+export async function getApprovedRewardTotals(userIds: string[]) {
+  if (userIds.length === 0) return { totals: new Map<string, number>(), error: null };
+  if (userIds.length > 100) {
+    return { totals: new Map<string, number>(), error: "Too many users requested." };
+  }
+
+  const supabase = createSupabaseAdminClient();
+  if (!supabase) {
+    return { totals: new Map<string, number>(), error: "Reward totals are unavailable." };
+  }
+
+  const { data, error } = await supabase.rpc("get_reward_totals_for_users", {
+    p_user_ids: userIds,
+  });
+  if (error) {
+    console.error("Could not load approved reward totals for users.", error);
+    return { totals: new Map<string, number>(), error: "Reward totals are unavailable." };
+  }
+
+  return {
+    totals: new Map(
+      (data ?? []).map((row: { user_id: string; approved_usd: number | string }) => [
+        row.user_id,
+        Number(row.approved_usd),
+      ]),
+    ),
+    error: null,
+  };
+}

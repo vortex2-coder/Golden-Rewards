@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { formatMoney, getLocalCurrencyQuote } from "@/lib/currency";
+import { getApprovedRewardTotals } from "@/lib/rewards";
 
 export const metadata: Metadata = {
   title: "Admin users",
@@ -37,7 +39,7 @@ export default async function AdminUsersPage({
   const { data: users, count, error } = await supabase
     .from("profiles")
     .select(
-      "id, first_name, last_name, username, email, country, account_status, created_at",
+      "id, first_name, last_name, username, email, country, country_iso_code, account_status, created_at",
       { count: "exact" },
     )
     .order("created_at", { ascending: false })
@@ -49,6 +51,20 @@ export default async function AdminUsersPage({
 
   const totalUsers = count ?? 0;
   const totalPages = Math.max(1, Math.ceil(totalUsers / pageSize));
+  const userIds = (users ?? []).map((user) => user.id);
+  const rewardTotals = await getApprovedRewardTotals(userIds);
+  const usersWithRewards = await Promise.all(
+    (users ?? []).map(async (user) => {
+      const totalUsd: number | null = rewardTotals.error
+        ? null
+        : Number(rewardTotals.totals.get(user.id) ?? 0);
+      const localQuote =
+        totalUsd === null
+          ? null
+          : await getLocalCurrencyQuote(totalUsd, String(user.country_iso_code ?? ""));
+      return { user, totalUsd, localQuote };
+    }),
+  );
 
   return (
     <main className="app-page public-page admin-page">
@@ -60,7 +76,7 @@ export default async function AdminUsersPage({
 
       <section className="wallet-section admin-users-list" aria-label="Registered users">
         {users?.length ? (
-          users.map((user) => (
+          usersWithRewards.map(({ user, totalUsd, localQuote }) => (
             <article className="admin-user-row" key={user.id}>
               <span className="profile-avatar profile-avatar--small" aria-hidden="true">
                 {user.username.slice(0, 1).toUpperCase()}
@@ -69,6 +85,15 @@ export default async function AdminUsersPage({
                 <strong>{user.first_name} {user.last_name}</strong>
                 <small>@{user.username} · {user.email}</small>
                 <small>{user.country} · Joined {new Date(user.created_at).toLocaleDateString()}</small>
+                <small>
+                  Approved rewards:{" "}
+                  {totalUsd === null ? "Unavailable" : formatMoney(totalUsd, "USD")}
+                  {totalUsd !== null && localQuote?.amount !== null && localQuote
+                    ? ` · approx. ${formatMoney(localQuote.amount, localQuote.currencyCode)}`
+                    : totalUsd !== null
+                      ? " · local conversion unavailable"
+                      : ""}
+                </small>
               </span>
               <span className="status-pill">
                 {user.account_status === "active" ? "Active" : "Suspended"}
