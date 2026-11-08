@@ -21,6 +21,12 @@ Without Supabase environment variables, account forms display setup guidance and
 6. Email confirmation is disabled for this deployment at the owner's request. Custom SMTP is configured in Supabase Auth using Gmail SMTP (`smtp.gmail.com`, port `587`). Gmail personal accounts are not designed for transactional email, may have delivery/rate limits, and Supabase warns that deliverability may be impacted.
 7. Add the same public and server-only environment variables to the production hosting environment and redeploy.
 
+## Admin overview
+
+The private `/admin` route uses the existing Supabase account login; it has no separate password or default credentials. Set the server-only `ADMIN_EMAILS` environment variable to a comma-separated list of administrator account email addresses in local and production environments, then restart or redeploy. The matching email must already have an active Golden Rewards account. Sign in at `/login`, then open `/admin`. The route checks the authenticated account on the server and returns not found to other users. Do not expose the Supabase secret key or use a shared password.
+
+The current admin page is overview-only: it shows real profile counts and recent signups using the server-side Supabase service key. It does not manage accounts, rewards, or withdrawals; those functions are not configured.
+
 The migrations create the profile table, case-insensitive username and email uniqueness rules, E.164 phone uniqueness, immutable referral attribution, account status, profile RLS, and narrowly scoped referral/username RPCs. The follow-up grant allows the server-side service-role client to read profiles for username-to-email login resolution and duplicate phone checks. The short-referral-code migration changes each member's code to five uppercase letters/digits and retains the prior code as a private lookup alias so previously shared links continue working. Referral lookups return only a username; referral history does not expose email addresses or phone numbers.
 
 The signup flow validates names, username, email, country/phone number, optional referral, password confirmation, and terms acceptance on the server. Phone validation uses the full ISO country-name dataset and libphonenumber-js; phone numbers are stored in E.164 format. The database trigger generates each member's unique referral code and resolves the submitted invitation reference to the referrer's user ID. Email addresses are not verified during registration.
@@ -37,7 +43,7 @@ Standard AdSense views and clicks cannot be rewarded. The Earn page does not cre
 
 ## Before launch
 
-- Replace the pre-launch privacy and terms drafts with accurate operator, jurisdiction, retention, support, and data-processing details.
+- Before launch, publish the operator's legal name and working support/privacy contact, confirm the actual data-retention and consent arrangements, and have the terms and privacy disclosures reviewed for the countries served.
 - Email confirmation remains disabled by product-owner choice. Enable it only if the product owner changes that decision.
 - Add an approved consent-management setup before enabling AdSense.
 - Do not reward standard AdSense ad views or clicks.
