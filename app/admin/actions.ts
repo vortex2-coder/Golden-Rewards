@@ -64,6 +64,7 @@ export async function saveAdSenseSettings(
   }
 
   revalidatePath("/admin");
+  revalidatePath("/admin/ads");
   revalidatePath("/earn");
   return { success: "Google AdSense settings saved." };
 }

@@ -35,6 +35,9 @@ export async function AuthenticatedPage({ children }: { children: ReactNode }) {
     if (supabase) await supabase.auth.signOut();
     redirect("/login?message=suspended");
   }
+  if (member.user.app_metadata?.role === "admin") {
+    redirect("/admin");
+  }
 
   return children;
 }

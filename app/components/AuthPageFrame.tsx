@@ -6,7 +6,7 @@ import { createSupabaseServerClient, getCurrentMember } from "@/lib/supabase/ser
 export async function getAuthPageContext(redirectAuthenticated = true) {
   const member = await getCurrentMember();
   if (redirectAuthenticated && member.user && member.profile?.account_status === "active") {
-    redirect("/");
+    redirect(member.user.app_metadata?.role === "admin" ? "/admin" : "/");
   }
   if (member.user && member.profile?.account_status === "suspended") {
     const supabase = await createSupabaseServerClient();

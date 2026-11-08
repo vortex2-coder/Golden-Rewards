@@ -236,7 +236,7 @@ export async function loginAction(
     ...(rememberMe ? { maxAge: 60 * 60 * 24 * 30 } : {}),
   });
 
-  redirect("/");
+  redirect(data.user.app_metadata?.role === "admin" ? "/admin" : "/");
 }
 
 export async function requestPasswordResetAction(

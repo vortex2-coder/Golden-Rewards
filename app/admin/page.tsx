@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
-import { getAdSenseSettings } from "@/lib/adsense";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { getCurrentMember } from "@/lib/supabase/server";
-import AdSenseSettingsForm from "./AdSenseSettingsForm";
 
 export const metadata: Metadata = {
-  title: "Admin overview",
-  description: "Restricted Golden Rewards administration overview.",
+  title: "Admin home",
+  description: "Golden Rewards administrator overview.",
 };
 
 async function getAdminOverview() {
@@ -50,33 +46,14 @@ async function getAdminOverview() {
 }
 
 export default async function AdminPage() {
-  const member = await getCurrentMember();
-
-  if (!member.configured) {
-    redirect("/login");
-  }
-  if (!member.user) {
-    redirect("/login");
-  }
-  if (!member.profile || member.profile.account_status !== "active") {
-    notFound();
-  }
-
-  const signedInEmail = member.user.email?.trim().toLowerCase();
-
-  if (!signedInEmail || member.user.app_metadata?.role !== "admin") {
-    notFound();
-  }
-
   const overview = await getAdminOverview();
-  const adSenseSettings = await getAdSenseSettings();
 
   return (
-    <main className="app-page public-page">
+    <main className="app-page public-page admin-page">
       <header className="public-page__heading">
-        <span className="eyebrow">RESTRICTED · ADMIN</span>
-        <h1>Admin overview</h1>
-        <p>Signed in as {signedInEmail}. This view is limited to account totals and recent signups.</p>
+        <span className="eyebrow">ADMIN · HOME</span>
+        <h1>Platform overview</h1>
+        <p>Registered accounts and recent platform activity.</p>
       </header>
 
       {!overview ? (
@@ -139,38 +116,6 @@ export default async function AdminPage() {
               </div>
             )}
           </section>
-
-          <section className="wallet-section" aria-labelledby="adsense-settings-title">
-            <div className="section-heading">
-              <div>
-                <span className="eyebrow">ADVERTISING</span>
-                <h2 id="adsense-settings-title">Google AdSense</h2>
-              </div>
-              <span className="status-pill">
-                {adSenseSettings?.enabled ? "Enabled" : "Disabled"}
-              </span>
-            </div>
-            {adSenseSettings ? (
-              <AdSenseSettingsForm
-                enabled={adSenseSettings.enabled}
-                clientId={adSenseSettings.clientId}
-                slotId={adSenseSettings.slotId}
-              />
-            ) : (
-              <div className="empty-state-card" role="status">
-                <h3>Ad settings are unavailable</h3>
-                <p>
-                  Configure the server-side Supabase service key and apply the
-                  AdSense settings migration before adding an ad unit.
-                </p>
-              </div>
-            )}
-          </section>
-
-          <aside className="guide-disclaimer">
-            Reward approvals, withdrawals, and payment management are not
-            available because no rewards ledger or payout service is configured.
-          </aside>
         </>
       )}
     </main>
