@@ -27,6 +27,8 @@ export async function saveAdSenseSettings(
   const enabled = formData.get("enabled") === "on";
   const clientId = String(formData.get("clientId") ?? "").trim();
   const slotId = String(formData.get("slotId") ?? "").trim();
+  const rewardText = String(formData.get("rewardUsd") ?? "").trim();
+  const rewardUsd = Number(rewardText);
 
   if (clientId && !/^ca-pub-\d{16}$/.test(clientId)) {
     return { error: "Enter a valid AdSense publisher ID (ca-pub- followed by 16 digits)." };
@@ -37,34 +39,37 @@ export async function saveAdSenseSettings(
   if (enabled && (!clientId || !slotId)) {
     return { error: "Enter both the publisher ID and ad slot ID before enabling the ad." };
   }
+  if (
+    !/^\d{1,8}(?:\.\d{1,2})?$/.test(rewardText) ||
+    !Number.isFinite(rewardUsd) ||
+    rewardUsd <= 0
+  ) {
+    return {
+      error: "Enter a partner reward amount greater than zero with no more than two decimal places.",
+    };
+  }
 
   const supabase = createSupabaseAdminClient();
   if (!supabase) {
     return { error: "The server-side Supabase service key is not configured." };
   }
 
-  const { error } = await supabase
-    .from("adsense_settings")
-    .upsert(
-      {
-        setting_key: "global",
-        enabled,
-        client_id: clientId,
-        slot_id: slotId,
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: "setting_key" },
-    );
+  const { error } = await supabase.rpc("save_admin_ad_and_reward_settings", {
+    p_enabled: enabled,
+    p_client_id: clientId,
+    p_slot_id: slotId,
+    p_reward_usd: rewardUsd,
+  });
 
   if (error) {
-    console.error("Could not save Google AdSense settings.", error);
+    console.error("Could not save AdSense and partner reward settings.", error);
     return {
-      error: "Could not save AdSense settings. Confirm the latest Supabase migration has been applied.",
+      error: "Could not save ad and reward settings. Confirm the default partner reward migration has been applied.",
     };
   }
 
   revalidatePath("/admin");
   revalidatePath("/admin/ads");
   revalidatePath("/earn");
-  return { success: "Google AdSense settings saved." };
+  return { success: "Ad and default partner reward settings saved." };
 }

@@ -21,8 +21,10 @@ export type EarningTaskFormValues = {
 
 export default function EarningTaskForm({
   task,
+  defaultRewardUsd,
 }: {
   task?: EarningTaskFormValues;
+  defaultRewardUsd: number | null;
 }) {
   const [state, formAction, pending] = useActionState(
     saveEarningTask,
@@ -82,7 +84,7 @@ export default function EarningTaskForm({
           min="0.01"
           max="99999999.99"
           step="0.01"
-          defaultValue={task?.reward_usd ?? ""}
+          defaultValue={task?.reward_usd ?? defaultRewardUsd ?? ""}
           placeholder="0.25"
         />
       </label>

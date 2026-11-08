@@ -12,10 +12,12 @@ export default function AdSenseSettingsForm({
   enabled,
   clientId,
   slotId,
+  defaultRewardUsd,
 }: {
   enabled: boolean;
   clientId: string;
   slotId: string;
+  defaultRewardUsd: number | null;
 }) {
   const [state, formAction, pending] = useActionState(
     saveAdSenseSettings,
@@ -49,6 +51,23 @@ export default function AdSenseSettingsForm({
           title="Use the numeric ad slot ID from your AdSense ad unit."
         />
       </label>
+      <label className="admin-ads-form__field">
+        <span>Default partner reward amount (USD)</span>
+        <input
+          name="rewardUsd"
+          type="number"
+          required
+          min="0.01"
+          max="99999999.99"
+          step="0.01"
+          defaultValue={defaultRewardUsd ?? ""}
+          placeholder="0.25"
+        />
+        <small>
+          Used as the starting amount for new partner offers below. It does not
+          reward AdSense views or clicks.
+        </small>
+      </label>
       <label className="admin-ads-form__toggle">
         <input name="enabled" type="checkbox" defaultChecked={enabled} />
         <span>Show this ad unit on the Earn page</span>
@@ -61,7 +80,7 @@ export default function AdSenseSettingsForm({
       {state.error && <p className="form-message" role="alert">{state.error}</p>}
       {state.success && <p className="form-message form-message--success" role="status">{state.success}</p>}
       <button className="button button--primary" type="submit" disabled={pending}>
-        {pending ? "Saving…" : "Save AdSense settings"}
+        {pending ? "Saving…" : "Save ad and reward settings"}
       </button>
     </form>
   );

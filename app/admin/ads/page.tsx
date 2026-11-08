@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getAdSenseSettings } from "@/lib/adsense";
+import { getDefaultPartnerRewardUsd } from "@/lib/reward-settings";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import AdSenseSettingsForm from "../AdSenseSettingsForm";
 import EarningTaskForm, { type EarningTaskFormValues } from "../EarningTaskForm";
@@ -10,8 +11,9 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminAdsPage() {
-  const [settings, supabase] = await Promise.all([
+  const [settings, defaultRewardUsd, supabase] = await Promise.all([
     getAdSenseSettings(),
+    getDefaultPartnerRewardUsd(),
     Promise.resolve(createSupabaseAdminClient()),
   ]);
   const taskQuery = supabase
@@ -56,6 +58,7 @@ export default async function AdminAdsPage() {
             enabled={settings.enabled}
             clientId={settings.clientId}
             slotId={settings.slotId}
+            defaultRewardUsd={defaultRewardUsd}
           />
         ) : (
           <div className="empty-state-card" role="status">
@@ -106,7 +109,10 @@ export default async function AdminAdsPage() {
                     </span>
                     <span className="status-pill">{task.is_active ? "Active" : "Paused"}</span>
                   </summary>
-                  <EarningTaskForm task={{ ...task, reward_usd: Number(task.reward_usd) }} />
+                  <EarningTaskForm
+                    task={{ ...task, reward_usd: Number(task.reward_usd) }}
+                    defaultRewardUsd={defaultRewardUsd}
+                  />
                 </details>
               )) : (
                 <div className="empty-state-card">
@@ -117,7 +123,7 @@ export default async function AdminAdsPage() {
             </div>
             <details className="admin-earning-task admin-earning-task--new">
               <summary><strong>Add a partner task</strong></summary>
-              <EarningTaskForm />
+              <EarningTaskForm defaultRewardUsd={defaultRewardUsd} />
             </details>
           </>
         )}
