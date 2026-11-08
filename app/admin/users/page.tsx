@@ -3,6 +3,8 @@ import Link from "next/link";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { formatMoney, getLocalCurrencyQuote } from "@/lib/currency";
 import { getApprovedRewardTotals } from "@/lib/rewards";
+import { getPointsAdminData } from "@/lib/points-admin";
+import SurveyManagement from "../SurveyManagement";
 
 export const metadata: Metadata = {
   title: "Admin users",
@@ -52,7 +54,10 @@ export default async function AdminUsersPage({
   const totalUsers = count ?? 0;
   const totalPages = Math.max(1, Math.ceil(totalUsers / pageSize));
   const userIds = (users ?? []).map((user) => user.id);
-  const rewardTotals = await getApprovedRewardTotals(userIds);
+  const [rewardTotals, pointsAdminResult] = await Promise.all([
+    getApprovedRewardTotals(userIds),
+    getPointsAdminData(),
+  ]);
   const usersWithRewards = await Promise.all(
     (users ?? []).map(async (user) => {
       const totalUsd: number | null = rewardTotals.error
@@ -107,6 +112,28 @@ export default async function AdminUsersPage({
           </div>
         )}
       </section>
+
+      {pointsAdminResult.data ? (
+        <SurveyManagement
+          categories={pointsAdminResult.data.categories}
+          surveys={pointsAdminResult.data.surveys}
+          submissions={pointsAdminResult.data.submissions}
+          audit={pointsAdminResult.data.audit}
+        />
+      ) : (
+        <section className="wallet-section" aria-labelledby="survey-admin-unavailable">
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">SURVEYS</span>
+              <h2 id="survey-admin-unavailable">Survey management</h2>
+            </div>
+          </div>
+          <div className="empty-state-card" role="status">
+            <h3>Survey management unavailable</h3>
+            <p>{pointsAdminResult.error}</p>
+          </div>
+        </section>
+      )}
 
       <nav className="admin-pagination" aria-label="User list pages">
         {page > 1 ? (

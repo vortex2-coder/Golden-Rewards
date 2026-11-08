@@ -19,6 +19,12 @@ export type RewardLedgerEntry = {
   created_at: string;
 };
 
+export type SurveyCashLedgerEntry = {
+  id: string;
+  amount_usd: number;
+  created_at: string;
+};
+
 export async function getActiveEarningTasks() {
   const supabase = createSupabaseAdminClient();
   if (!supabase) return { tasks: null, error: "Earning tasks are not configured." };
@@ -57,6 +63,32 @@ export async function getMemberRewardHistory(limit = 50) {
     };
   }
   return { entries: data as RewardLedgerEntry[], error: null };
+}
+
+export async function getMemberSurveyRewardHistory(limit = 50) {
+  const supabase = await createSupabaseServerClient();
+  if (!supabase) return { entries: null, error: "Survey reward history is unavailable." };
+
+  const { data, error } = await supabase
+    .from("survey_cash_ledger")
+    .select("id, amount_usd, created_at")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error("Could not load the member's approved survey rewards.", error);
+    return {
+      entries: null,
+      error: "Survey reward history is unavailable. Apply the points-and-surveys migration to enable it.",
+    };
+  }
+  return {
+    entries: (data ?? []).map((entry) => ({
+      ...entry,
+      amount_usd: Number(entry.amount_usd),
+    })) as SurveyCashLedgerEntry[],
+    error: null,
+  };
 }
 
 export async function getMemberRewardSummary() {

@@ -4,6 +4,8 @@ import { getDefaultPartnerRewardUsd } from "@/lib/reward-settings";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import AdSenseSettingsForm from "../AdSenseSettingsForm";
 import EarningTaskForm, { type EarningTaskFormValues } from "../EarningTaskForm";
+import PointsConfiguration from "../PointsConfiguration";
+import { getPointsAdminData } from "@/lib/points-admin";
 
 export const metadata: Metadata = {
   title: "Ad configuration",
@@ -11,10 +13,11 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminAdsPage() {
-  const [settings, defaultRewardUsd, supabase] = await Promise.all([
+  const [settings, defaultRewardUsd, supabase, pointsAdminResult] = await Promise.all([
     getAdSenseSettings(),
     getDefaultPartnerRewardUsd(),
     Promise.resolve(createSupabaseAdminClient()),
+    getPointsAdminData(),
   ]);
   const taskQuery = supabase
     ? await supabase
@@ -133,6 +136,27 @@ export default async function AdminAdsPage() {
             Task links add an opaque click ID using the configured tracking parameter (default <code>subid</code>). Send a POST request to <code>/api/rewards/postback</code> with a JSON body containing <code>click_id</code>, <code>event_id</code>, <code>transaction_id</code>, and <code>partner_name</code>. Sign the exact raw body with HMAC-SHA256 using <code>REWARDS_POSTBACK_SECRET</code>; send the lowercase hex digest as <code>x-rewards-signature: sha256=&lt;digest&gt;</code>. Never send an amount: the recorded reward is fixed from the task configuration.
           </p>
         </div>
+      </section>
+
+      <section className="wallet-section" aria-labelledby="golden-points-title">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">POINTS · SURVEY ACCESS</span>
+            <h2 id="golden-points-title">Golden Points</h2>
+          </div>
+        </div>
+        {pointsAdminResult.data ? (
+          <PointsConfiguration
+            settings={pointsAdminResult.data.settings}
+            campaigns={pointsAdminResult.data.campaigns}
+            pointsPostbackReady={(process.env.POINTS_POSTBACK_SECRET?.length ?? 0) >= 32}
+          />
+        ) : (
+          <div className="empty-state-card" role="status">
+            <h3>Golden Points administration unavailable</h3>
+            <p>{pointsAdminResult.error}</p>
+          </div>
+        )}
       </section>
     </main>
   );

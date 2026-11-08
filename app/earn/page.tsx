@@ -9,6 +9,12 @@ import {
   getMemberRewardSummary,
 } from "@/lib/rewards";
 import { getCurrentMember } from "@/lib/supabase/server";
+import {
+  getAvailablePointsCampaigns,
+  getAvailableSurveys,
+  getMemberPointsSummary,
+} from "@/lib/points";
+import SurveyAccessPanel from "./SurveyAccessPanel";
 
 export const metadata: Metadata = {
   title: "Earn",
@@ -17,16 +23,19 @@ export const metadata: Metadata = {
 };
 
 export default async function EarnPage() {
-  const [adSenseSettings, taskResult, historyResult, summary, member] =
+  const [adSenseSettings, taskResult, historyResult, summary, member, pointsResult, surveyResult] =
     await Promise.all([
       getAdSenseSettings(),
       getActiveEarningTasks(),
       getMemberRewardHistory(),
       getMemberRewardSummary(),
       getCurrentMember(),
+      getMemberPointsSummary(),
+      getAvailableSurveys(),
     ]);
 
   const countryIsoCode = member.profile?.country_iso_code ?? "";
+  const campaignsResult = await getAvailablePointsCampaigns(countryIsoCode);
   const tasks = taskResult.tasks ?? [];
   const taskQuotes = await Promise.all(
     tasks.map((task) => getLocalCurrencyQuote(task.reward_usd, countryIsoCode)),
@@ -49,6 +58,15 @@ export default async function EarnPage() {
             after the partner confirms a valid completion.
           </p>
         </header>
+
+        <SurveyAccessPanel
+          summary={pointsResult.summary}
+          campaigns={campaignsResult.campaigns ?? []}
+          surveys={surveyResult.surveys ?? []}
+          surveysError={surveyResult.error}
+          campaignsError={campaignsResult.error}
+          pointsPostbackReady={(process.env.POINTS_POSTBACK_SECRET?.length ?? 0) >= 32}
+        />
 
         <section className="earn-status-card" aria-labelledby="earning-status-title">
           <div className="earn-status-card__heading">
