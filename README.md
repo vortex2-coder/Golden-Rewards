@@ -23,7 +23,7 @@ Without Supabase environment variables, account forms display setup guidance and
 
 ## Admin overview
 
-The private `/admin` route uses the existing Supabase account login; it has no separate password or default credentials. Set the server-only `ADMIN_EMAILS` environment variable to a comma-separated list of administrator account email addresses in local and production environments, then restart or redeploy. The matching email must already have an active Golden Rewards account. Sign in at `/login`, then open `/admin`. The route checks the authenticated account on the server and returns not found to other users. Do not expose the Supabase secret key or use a shared password.
+The private `/admin` route uses the existing Supabase account login; it has no separate password or default credentials. An administrator is identified by the server-managed Supabase Auth `app_metadata.role = admin` claim. Only grant this role using a trusted Supabase server-side admin operation; never accept role changes from user-editable metadata or browser input. The matching email must already have an active Golden Rewards account. Sign in at `/login`, then open `/admin`. The route checks the authenticated account on the server and returns not found to other users. Do not expose the Supabase secret key or use a shared password.
 
 The current admin page is overview-only: it shows real profile counts and recent signups using the server-side Supabase service key. It does not manage accounts, rewards, or withdrawals; those functions are not configured.
 

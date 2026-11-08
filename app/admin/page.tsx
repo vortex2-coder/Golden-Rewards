@@ -60,13 +60,9 @@ export default async function AdminPage() {
     notFound();
   }
 
-  const adminEmails = (process.env.ADMIN_EMAILS ?? "")
-    .split(",")
-    .map((email) => email.trim().toLowerCase())
-    .filter(Boolean);
   const signedInEmail = member.user.email?.trim().toLowerCase();
 
-  if (!signedInEmail || !adminEmails.includes(signedInEmail)) {
+  if (!signedInEmail || member.user.app_metadata?.role !== "admin") {
     notFound();
   }
 
