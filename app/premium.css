@@ -4363,6 +4363,12 @@ select:focus-visible {
   box-shadow: 0 14px 30px rgb(255 20 147 / 24%);
 }
 
+.home-points-card > span,
+.home-points-card > strong,
+.home-points-card > small {
+  color: #fff;
+}
+
 .rewards-card__chip {
   border-color: rgb(255 255 255 / 78%);
 }
