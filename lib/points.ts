@@ -32,6 +32,21 @@ export type AvailableSurvey = {
   category_name: string | null;
 };
 
+export type SurveyCategoryProgress = {
+  currentCategory: string | null;
+  nextCategory: string | null;
+  nextCategoryCashUsd: number | null;
+  progressPercent: number | null;
+};
+
+export type MemberSurveyActivity = {
+  id: string;
+  title: string;
+  status: "pending" | "approved" | "rejected";
+  review_note: string;
+  created_at: string;
+};
+
 type AvailableSurveyRow = {
   id: string;
   title: string;
@@ -134,6 +149,93 @@ export async function getAvailableSurveys() {
   };
 }
 
+export async function getSurveyCategoryProgress(cashBalanceUsd: number) {
+  const supabase = createSupabaseAdminClient();
+  if (!supabase) {
+    return { progress: null, error: "Survey category progress is unavailable." };
+  }
+
+  const { data, error } = await supabase
+    .from("survey_categories")
+    .select("name, min_cash_usd, max_cash_usd")
+    .order("min_cash_usd", { ascending: true });
+
+  if (error) {
+    console.error("Could not load survey category progress.", error);
+    return { progress: null, error: "Survey category progress is unavailable." };
+  }
+
+  const categories = (data ?? []).map((category) => ({
+    name: category.name,
+    minCashUsd: Number(category.min_cash_usd),
+    maxCashUsd:
+      category.max_cash_usd === null ? null : Number(category.max_cash_usd),
+  }));
+  const current = categories.find(
+    (category) =>
+      category.minCashUsd <= cashBalanceUsd &&
+      (category.maxCashUsd === null ||
+        cashBalanceUsd < category.maxCashUsd),
+  );
+  const next = categories.find(
+    (category) => category.minCashUsd > cashBalanceUsd,
+  );
+
+  let progressPercent: number | null = null;
+  if (current?.maxCashUsd === null && current) {
+    progressPercent = 100;
+  } else if (current && next) {
+    progressPercent = Math.min(
+      100,
+      Math.max(
+        0,
+        ((cashBalanceUsd - current.minCashUsd) /
+          (next.minCashUsd - current.minCashUsd)) *
+          100,
+      ),
+    );
+  } else if (current?.maxCashUsd !== null && current) {
+    progressPercent = Math.min(
+      100,
+      Math.max(
+        0,
+        ((cashBalanceUsd - current.minCashUsd) /
+          (current.maxCashUsd - current.minCashUsd)) *
+          100,
+      ),
+    );
+  } else if (next) {
+    const previous = [...categories]
+      .reverse()
+      .find(
+        (category) =>
+          category.maxCashUsd !== null &&
+          category.maxCashUsd <= cashBalanceUsd,
+      );
+    const start = previous?.maxCashUsd ?? 0;
+    progressPercent =
+      next.minCashUsd > start
+        ? Math.min(
+            100,
+            Math.max(
+              0,
+              ((cashBalanceUsd - start) / (next.minCashUsd - start)) * 100,
+            ),
+          )
+        : 0;
+  }
+
+  return {
+    progress: {
+      currentCategory: current?.name ?? null,
+      nextCategory: next?.name ?? null,
+      nextCategoryCashUsd: next?.minCashUsd ?? null,
+      progressPercent,
+    } satisfies SurveyCategoryProgress,
+    error: null,
+  };
+}
+
 export async function getMemberPointsHistory(limit = 50) {
   const supabase = await createSupabaseServerClient();
   if (!supabase) return { entries: null, error: "Golden Points history is unavailable." };
@@ -152,6 +254,59 @@ export async function getMemberPointsHistory(limit = 50) {
       points_delta: Number(entry.points_delta),
       reason: entry.reason as PointsLedgerEntry["reason"],
     })) as PointsLedgerEntry[],
+    error: null,
+  };
+}
+
+export async function getMemberSurveyActivity(userId: string, limit = 5) {
+  const supabase = await createSupabaseServerClient();
+  if (!supabase) {
+    return { entries: null, error: "Survey activity is unavailable." };
+  }
+
+  const { data, error } = await supabase
+    .from("survey_submissions")
+    .select("id, survey_id, status, review_note, created_at")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error("Could not load the member's survey activity.", error);
+    return { entries: null, error: "Survey activity is unavailable." };
+  }
+
+  const submissions = data ?? [];
+  if (submissions.length === 0) return { entries: [], error: null };
+
+  const admin = createSupabaseAdminClient();
+  if (!admin) {
+    return { entries: null, error: "Survey activity details are unavailable." };
+  }
+
+  const surveyIds = [...new Set(submissions.map((submission) => submission.survey_id))];
+  const surveysResult = await admin
+    .from("surveys")
+    .select("id, title")
+    .in("id", surveyIds);
+
+  if (surveysResult.error) {
+    console.error("Could not load titles for the member's survey activity.", surveysResult.error);
+    return { entries: null, error: "Survey activity details are unavailable." };
+  }
+
+  const titles = new Map(
+    (surveysResult.data ?? []).map((survey) => [survey.id, survey.title]),
+  );
+
+  return {
+    entries: submissions.map((submission) => ({
+      id: submission.id,
+      title: titles.get(submission.survey_id) ?? "Survey unavailable",
+      status: submission.status as MemberSurveyActivity["status"],
+      review_note: submission.review_note,
+      created_at: submission.created_at,
+    })) satisfies MemberSurveyActivity[],
     error: null,
   };
 }

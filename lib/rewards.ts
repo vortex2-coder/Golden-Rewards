@@ -32,6 +32,13 @@ export type ReferralCashLedgerEntry = {
   created_at: string;
 };
 
+export type MemberReferralSummary = {
+  totalInvited: number;
+  successfulReferrals: number;
+  pendingReferrals: number;
+  earnedUsd: number;
+};
+
 type ReferralCashLedgerRow = Omit<ReferralCashLedgerEntry, "amount_usd"> & {
   amount_usd: number | string;
 };
@@ -120,6 +127,34 @@ export async function getMemberReferralCashHistory() {
       ...entry,
       amount_usd: Number(entry.amount_usd),
     })),
+    error: null,
+  };
+}
+
+export async function getMemberReferralSummary() {
+  const supabase = await createSupabaseServerClient();
+  if (!supabase) {
+    return { summary: null, error: "Referral statistics are unavailable." };
+  }
+
+  const { data, error } = await supabase.rpc("get_my_referral_summary");
+  if (error) {
+    console.error("Could not load the member's referral summary.", error);
+    return { summary: null, error: "Referral statistics are unavailable." };
+  }
+
+  const row = data?.[0];
+  if (!row) {
+    return { summary: null, error: "Referral statistics are unavailable." };
+  }
+
+  return {
+    summary: {
+      totalInvited: Number(row.total_invited),
+      successfulReferrals: Number(row.successful_referrals),
+      pendingReferrals: Number(row.pending_referrals),
+      earnedUsd: Number(row.earned_usd),
+    } satisfies MemberReferralSummary,
     error: null,
   };
 }

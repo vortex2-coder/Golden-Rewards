@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AuthenticatedPage } from "../components/AuthenticatedPage";
 import SignOutButton from "../components/SignOutButton";
 import ProfileEditForm from "../components/ProfileEditForm";
+import { getMemberPointsSummary } from "@/lib/points";
 import { getCurrentMember } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
@@ -11,7 +12,10 @@ export const metadata: Metadata = {
 };
 
 async function MeContent() {
-  const member = await getCurrentMember();
+  const [member, pointsResult] = await Promise.all([
+    getCurrentMember(),
+    getMemberPointsSummary(),
+  ]);
   if (!member.profile) throw new Error("Could not load the signed-in member profile.");
 
   const profile = member.profile;
@@ -39,6 +43,15 @@ async function MeContent() {
         <div className="account-detail"><span>ACCOUNT ID</span><strong>{profile.id}</strong></div>
         <div className="account-detail"><span>COUNTRY</span><strong>{profile.country}</strong></div>
         <div className="account-detail"><span>PHONE</span><strong>{profile.phone_number_e164}</strong></div>
+        <div className="account-detail"><span>REFERRAL CODE</span><strong>{profile.referral_code}</strong></div>
+        <div className="account-detail">
+          <span>REGISTERED</span>
+          <strong>{new Date(profile.created_at).toLocaleDateString()}</strong>
+        </div>
+        <div className="account-detail">
+          <span>SURVEY CATEGORY</span>
+          <strong>{pointsResult.summary?.surveyCategory ?? (pointsResult.error ? "Unavailable" : "Not assigned")}</strong>
+        </div>
         <div className="account-detail"><span>ACCOUNT STATUS</span><strong>{profile.account_status === "active" ? "Active" : "Suspended"}</strong></div>
       </section>
       <section className="wallet-section profile-edit-section">
