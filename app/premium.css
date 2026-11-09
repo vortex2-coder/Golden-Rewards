@@ -1,17 +1,17 @@
 :root {
-  color-scheme: dark;
-  --background: #080808;
-  --surface: #101010;
-  --surface-raised: #171717;
-  --surface-soft: #202020;
-  --border: rgb(214 174 72 / 15%);
-  --border-gold: rgb(214 174 72 / 35%);
-  --text: #f5f3ee;
-  --muted: #a0a0a0;
-  --subtle: #77746e;
-  --gold: #d6ae48;
-  --gold-bright: #f4d477;
-  --gold-ink: #17130b;
+  color-scheme: light;
+  --background: #fff0f6;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-soft: #fce0ed;
+  --border: #f3dce8;
+  --border-gold: #d9a0a9;
+  --text: #29202a;
+  --muted: #827581;
+  --subtle: #958a95;
+  --gold: #b90d59;
+  --gold-bright: #e91e78;
+  --gold-ink: #ffffff;
 }
 
 * {
@@ -27,14 +27,10 @@ body {
   min-height: 100vh;
   margin: 0;
   color: var(--text);
-  background-color: #080808;
-  background-image: repeating-linear-gradient(
-    135deg,
-    transparent 0,
-    transparent 9px,
-    rgb(255 255 255 / 1.5%) 10px,
-    transparent 11px
-  );
+  background-color: var(--background);
+  background-image:
+    radial-gradient(ellipse at 82% 0, rgb(233 30 120 / 5%), transparent 34rem),
+    radial-gradient(ellipse at 5% 72%, rgb(217 160 169 / 7%), transparent 35rem);
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
@@ -65,7 +61,7 @@ button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 select:focus-visible {
-  outline: 2px solid var(--gold-bright);
+  outline: 2px solid #e91e78;
   outline-offset: 3px;
 }
 
@@ -75,12 +71,10 @@ select:focus-visible {
   margin: 0 auto;
   padding-bottom: calc(98px + env(safe-area-inset-bottom));
   overflow: hidden;
-  background:
-    radial-gradient(ellipse at 50% 0, rgb(255 255 255 / 2.2%), transparent 58%),
-    #090909;
-  border-right: 1px solid #171717;
-  border-left: 1px solid #171717;
-  box-shadow: 0 0 52px rgb(0 0 0 / 65%);
+  background: transparent;
+  border-right: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  box-shadow: 0 0 52px rgb(185 13 89 / 5%);
 }
 
 .site-header {
@@ -123,7 +117,7 @@ select:focus-visible {
   border: 1px solid var(--border);
   border-radius: 12px;
   background: #111;
-  color: #d8d5ce;
+  color: var(--text);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -3615,5 +3609,655 @@ body {
   .team-page .summary-grid--four,
   .wallet-page .summary-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+body {
+  color: #29202a;
+  background-color: #fff0f6;
+  background-image:
+    radial-gradient(ellipse at 82% 0, rgb(233 30 120 / 5%), transparent 34rem),
+    radial-gradient(ellipse at 5% 72%, rgb(217 160 169 / 7%), transparent 35rem);
+}
+
+.app-shell {
+  background: transparent;
+  border-color: #f3dce8;
+  box-shadow: 0 0 52px rgb(185 13 89 / 5%);
+}
+
+.site-header {
+  border-bottom: 1px solid #f3dce8;
+  background: rgb(255 255 255 / 90%);
+}
+
+.site-header__greeting strong,
+.public-page__heading h1,
+.section-heading h2,
+.section-heading h3,
+.wallet-section h2,
+.guide-detail__header h1,
+.guide-card h2,
+.guide-prose h2 {
+  color: #29202a;
+}
+
+.site-header__greeting span:not(.site-header__eyebrow),
+.site-header__profile-copy small {
+  color: #827581;
+}
+
+.site-header__profile,
+.site-header__guest-link {
+  border-color: #f3dce8;
+  background: #fff;
+  color: #29202a;
+}
+
+.site-header__profile:hover,
+.site-header__guest-link:hover {
+  border-color: #d9a0a9;
+  background: #fff0f6;
+}
+
+.site-header__avatar,
+.desktop-sidebar__mark {
+  border-color: #d9a0a9;
+  background: linear-gradient(145deg, #fff0f6, #fce0ed);
+  color: #b90d59;
+}
+
+.desktop-sidebar,
+.admin-section-nav {
+  border-color: #f3dce8;
+  background:
+    radial-gradient(ellipse at 0 0, rgb(233 30 120 / 5%), transparent 23rem),
+    #fff;
+  box-shadow: 12px 0 40px rgb(185 13 89 / 6%);
+}
+
+.desktop-sidebar__brand,
+.admin-section-nav__brand {
+  color: #29202a;
+}
+
+.desktop-sidebar__brand strong,
+.admin-section-nav__brand strong {
+  color: #b90d59;
+}
+
+.desktop-sidebar__caption {
+  color: #958a95;
+}
+
+.desktop-sidebar__item,
+.admin-section-nav__links a {
+  color: #827581;
+}
+
+.desktop-sidebar__item:hover,
+.admin-section-nav__links a:hover {
+  background: #fff0f6;
+  color: #29202a;
+}
+
+.desktop-sidebar__item.is-active,
+.admin-section-nav__links a.is-active {
+  border-color: #f3dce8;
+  background: linear-gradient(100deg, rgb(233 30 120 / 10%), rgb(233 30 120 / 3%));
+  color: #b90d59;
+}
+
+.desktop-sidebar__footer {
+  border-color: #f3dce8;
+}
+
+.desktop-sidebar__footer > span {
+  color: #827581;
+}
+
+.desktop-sidebar__footer a,
+.admin-section-nav__support {
+  color: #b90d59;
+}
+
+.admin-section-nav__icon {
+  border-color: #f3dce8;
+  color: #b90d59;
+}
+
+.admin-section-nav__links a.is-active .admin-section-nav__icon {
+  border-color: #d9a0a9;
+  background: #fff0f6;
+}
+
+.bottom-nav {
+  border-color: #f3dce8;
+  background: rgb(255 255 255 / 97%);
+  box-shadow: 0 -8px 28px rgb(185 13 89 / 8%);
+}
+
+.bottom-nav__item {
+  color: #827581;
+}
+
+.bottom-nav__item.is-active {
+  border-radius: 12px;
+  background: #fff0f6;
+  color: #b90d59;
+}
+
+.bottom-nav__label {
+  font-size: 9px;
+}
+
+.button--gold,
+.button--primary,
+.auth-submit,
+.button--primary:visited {
+  border-color: #e91e78;
+  background: linear-gradient(135deg, #e91e78 0%, #b90d59 100%);
+  box-shadow: 0 7px 18px rgb(185 13 89 / 16%);
+  color: #fff;
+}
+
+.button--gold:hover:not(:disabled),
+.button--primary:hover:not(:disabled),
+.auth-submit:hover:not(:disabled) {
+  border-color: #b90d59;
+  background: #b90d59;
+}
+
+.button--outline {
+  border-color: #d9a0a9;
+  background: #fff;
+  color: #b90d59;
+}
+
+.button--outline:hover:not(:disabled) {
+  background: #fff0f6;
+}
+
+.button--muted,
+.button:disabled,
+.home-cashout:disabled {
+  border-color: #f3dce8;
+  background: #f8f3f6;
+  color: #958a95;
+}
+
+.rewards-card {
+  border-color: #b90d59;
+  background:
+    radial-gradient(ellipse at 90% 0, rgb(255 255 255 / 18%), transparent 44%),
+    linear-gradient(135deg, #e91e78 0%, #b90d59 100%);
+  box-shadow: 0 18px 34px rgb(185 13 89 / 18%), inset 0 1px 0 rgb(255 255 255 / 25%);
+}
+
+.home-cash-balance {
+  border-color: #d9a0a9;
+  background:
+    radial-gradient(ellipse at 95% 0, rgb(217 160 169 / 14%), transparent 45%),
+    linear-gradient(135deg, #fff 0%, #fffafd 100%);
+  box-shadow: 0 18px 34px rgb(185 13 89 / 7%), inset 0 1px 0 #fff;
+}
+
+.home-cash-balance .rewards-card__top,
+.home-cash-balance .rewards-card__footer,
+.home-cash-balance .rewards-card__footer strong,
+.home-cash-balance .rewards-card__balance {
+  color: #29202a;
+}
+
+.home-cash-balance .rewards-card__top,
+.home-cash-balance .rewards-card__footer span {
+  color: #827581;
+}
+
+.home-cash-balance .rewards-card__chip {
+  border-color: #d9a0a9;
+  background:
+    linear-gradient(90deg, transparent 47%, rgb(185 13 89 / 16%) 48% 52%, transparent 53%),
+    linear-gradient(0deg, transparent 46%, rgb(185 13 89 / 16%) 47% 52%, transparent 53%),
+    linear-gradient(135deg, #fff, #f3dce8);
+}
+
+.home-points-card {
+  border-color: #b90d59;
+  background:
+    radial-gradient(ellipse at 90% 0, rgb(255 255 255 / 17%), transparent 48%),
+    linear-gradient(135deg, #e91e78 0%, #b90d59 100%);
+  box-shadow: 0 12px 26px rgb(185 13 89 / 13%);
+}
+
+.home-points-card > span,
+.home-points-card > strong,
+.home-points-card > small {
+  color: #fff;
+}
+
+.home-points-card .text-link {
+  color: #fff0f6;
+}
+
+.rewards-card__top,
+.rewards-card__label,
+.rewards-card__status,
+.rewards-card__footer,
+.rewards-card__footer strong,
+.rewards-card__balance {
+  color: #fff;
+}
+
+.rewards-card__chip {
+  border-color: rgb(255 255 255 / 68%);
+  background:
+    linear-gradient(90deg, transparent 47%, rgb(185 13 89 / 38%) 48% 52%, transparent 53%),
+    linear-gradient(0deg, transparent 46%, rgb(185 13 89 / 38%) 47% 52%, transparent 53%),
+    linear-gradient(135deg, #fff, #f3dce8);
+}
+
+.wallet-balance-card {
+  border-color: #f3dce8;
+  background:
+    radial-gradient(ellipse at 100% 0, rgb(217 160 169 / 14%), transparent 47%),
+    linear-gradient(135deg, #fff, #fffafd);
+  box-shadow: 0 14px 28px rgb(185 13 89 / 8%);
+}
+
+.wallet-balance-card > span {
+  color: #827581;
+}
+
+.wallet-balance-card > strong {
+  color: #29202a;
+}
+
+.wallet-balance-card > small {
+  color: #827581;
+}
+
+.points-balance-card,
+.points-wallet-section .wallet-balance-card {
+  border-color: #e91e78;
+  background:
+    radial-gradient(ellipse at 90% 0, rgb(255 255 255 / 17%), transparent 48%),
+    linear-gradient(135deg, #e91e78 0%, #b90d59 100%);
+}
+
+.points-balance-card > span,
+.points-balance-card > strong,
+.points-balance-card > small,
+.points-wallet-section .wallet-balance-card > span,
+.points-wallet-section .wallet-balance-card > strong,
+.points-wallet-section .wallet-balance-card > small {
+  color: #fff;
+}
+
+.summary-card,
+.wallet-section,
+.profile-panel,
+.account-details,
+.settings-section,
+.empty-state-card,
+.notice-card,
+.bonus-card,
+.availability-card,
+.referral-panel,
+.guide-card,
+.guide-prose,
+.earn-status-card,
+.partner-offer-card,
+.admin-earning-task,
+.admin-rewards-guide,
+.admin-metric {
+  border-color: #f3dce8;
+  background: linear-gradient(145deg, #fff, #fffafd);
+  box-shadow: 0 10px 26px rgb(185 13 89 / 6%);
+  color: #29202a;
+}
+
+.summary-card > span,
+.summary-card > small,
+.supporting-copy,
+.guide-prose p,
+.guide-card p,
+.empty-state-card p,
+.notice-card p,
+.partner-offer-card p,
+.earn-status-card > p,
+.guide-detail__header p {
+  color: #827581;
+}
+
+.summary-card > strong,
+.partner-offer-card h3,
+.partner-offer-card__top > strong,
+.reward-history-row strong,
+.guide-row__copy strong,
+.profile-panel__identity strong,
+.settings-row strong,
+.account-detail strong,
+.notice-card > strong {
+  color: #29202a;
+}
+
+.text-link,
+.guide-prose a,
+.public-page__more a,
+.notice-card > a {
+  color: #b90d59;
+}
+
+.status-pill {
+  border-color: #f3dce8;
+  background: #fff0f6;
+  color: #b90d59;
+}
+
+.status-pill--verified,
+.status-pill--warning {
+  border-color: #d9a0a9;
+  background: #fce0ed;
+  color: #8f164e;
+}
+
+.reward-history-row,
+.guide-row,
+.settings-row,
+.admin-user-row {
+  border-color: #f3dce8;
+  background: #fff;
+  color: #29202a;
+}
+
+.reward-history-row small,
+.guide-row__copy small,
+.settings-row small,
+.admin-user-row__identity small {
+  color: #827581;
+}
+
+.reward-history-row .reward-history-row__reversed,
+.form-message {
+  color: #b42345;
+}
+
+.form-message--success {
+  color: #23734b;
+}
+
+.profile-avatar {
+  border-color: #d9a0a9;
+  background: linear-gradient(135deg, #fff0f6, #d9a0a9);
+  color: #8f164e;
+}
+
+.referral-link-preview,
+.referral-tools__link,
+.referral-panel__link {
+  border-color: #f3dce8;
+  background: #fff0f6;
+  color: #8f164e;
+}
+
+.auth-card {
+  border-color: #f3dce8;
+  background:
+    radial-gradient(ellipse at 100% 0, rgb(233 30 120 / 6%), transparent 48%),
+    linear-gradient(145deg, #fff, #fffafd 70%);
+  box-shadow: 0 24px 70px rgb(185 13 89 / 10%), inset 0 1px 0 #fff;
+}
+
+.auth-brand,
+.auth-field > label,
+.auth-form .auth-field > label {
+  color: #29202a;
+}
+
+.auth-brand__mark {
+  border-color: #d9a0a9;
+  background: linear-gradient(145deg, #fff0f6, #fce0ed);
+  color: #b90d59;
+}
+
+.auth-brand strong,
+.auth-password-toggle,
+.auth-form a {
+  color: #b90d59;
+}
+
+.auth-form .auth-field > input,
+.auth-password-wrap > input,
+.auth-country-menu > input,
+.auth-national-phone > input,
+.admin-ads-form__field input,
+.admin-ads-form__field textarea,
+.admin-ads-form__field select,
+.profile-edit-form input,
+.settings-form input,
+.admin-search input,
+.admin-filter select {
+  border-color: #ecd4e0;
+  background: #fff;
+  color: #29202a;
+}
+
+.auth-form .auth-field > input:focus,
+.auth-password-wrap > input:focus,
+.auth-country-menu > input:focus,
+.auth-national-phone > input:focus,
+.admin-ads-form__field input:focus,
+.admin-ads-form__field textarea:focus,
+.admin-ads-form__field select:focus,
+.profile-edit-form input:focus,
+.settings-form input:focus {
+  border-color: #e91e78;
+  box-shadow: 0 0 0 3px rgb(233 30 120 / 11%);
+}
+
+.auth-required-state {
+  color: #29202a;
+}
+
+.auth-required-state p,
+.auth-field > small,
+.admin-ads-form__field small {
+  color: #827581;
+}
+
+.admin-ads-form,
+.admin-task-form,
+.settings-form,
+.profile-edit-form {
+  color: #29202a;
+}
+
+.admin-ads-form__field > span,
+.admin-ads-form__toggle,
+.auth-form label {
+  color: #504650;
+}
+
+.admin-ads-form__field textarea,
+.admin-ads-form__field input,
+.admin-ads-form__field select {
+  border-radius: 11px;
+}
+
+.admin-section-nav {
+  border-radius: 17px;
+}
+
+.admin-page .summary-card > strong,
+.admin-metric strong {
+  color: #b90d59;
+}
+
+.admin-rewards-guide h3,
+.admin-rewards-guide code,
+.admin-rewards-notice h3,
+.admin-earning-task > summary strong,
+.admin-earning-task--new > summary strong {
+  color: #8f164e;
+}
+
+.admin-earning-task > summary {
+  border-color: #f3dce8;
+}
+
+.ad-section,
+.ad-slot,
+.ad-placeholder {
+  border-color: #f3dce8;
+  border-radius: 15px;
+  background: #fff;
+  color: #827581;
+}
+
+.home-category-progress {
+  border-color: #f3dce8;
+  background: #f8eaf1;
+}
+
+.home-category-progress > span {
+  background: linear-gradient(90deg, #e91e78, #d9a0a9);
+}
+
+.home-quick-actions > a {
+  border-color: #f3dce8;
+  background: linear-gradient(145deg, #fff, #fffafd);
+}
+
+.home-quick-actions > a:hover {
+  border-color: #d9a0a9;
+}
+
+.home-quick-actions__icon {
+  border-color: #f3dce8;
+  background: #fff0f6;
+  color: #b90d59;
+}
+
+.home-quick-actions strong {
+  color: #29202a;
+}
+
+.home-quick-actions small {
+  color: #827581;
+}
+
+.guide-row__number,
+.earn-status-card__icon {
+  border-color: #f3dce8;
+  background: #fff0f6;
+  color: #b90d59;
+}
+
+.bonus-card__icon {
+  border-color: #f3dce8;
+  background: #fff0f6;
+  color: #b90d59;
+}
+
+.bonus-card__identity h2 {
+  color: #29202a;
+}
+
+.bonus-card__identity p {
+  color: #827581;
+}
+
+.bonus-card__progress-track,
+.earn-progress__track {
+  background: #f3dce8;
+}
+
+.bonus-card__progress-track span,
+.earn-progress__track span {
+  background: linear-gradient(90deg, #e91e78, #d9a0a9);
+}
+
+.withdrawal-states__list span {
+  border-color: #f3dce8;
+  background: #fff;
+  color: #827581;
+}
+
+.status-pill--warning {
+  color: #8f164e;
+}
+
+.settings-row:hover,
+.settings-row--button:hover {
+  background: #fff0f6;
+}
+
+.settings-row button,
+.settings-row__value,
+.settings-row__arrow {
+  color: #b90d59;
+}
+
+.empty-state-card,
+.notice-card {
+  border-radius: 15px;
+}
+
+.legal-draft,
+.admin-rewards-notice {
+  border-color: #f3dce8;
+  background: #fff0f6;
+  color: #504650;
+}
+
+.legal-draft strong,
+.legal-draft p {
+  color: #504650;
+}
+
+@media (min-width: 760px) {
+  .bottom-nav {
+    border-color: #f3dce8;
+    background: rgb(255 255 255 / 97%);
+  }
+}
+
+@media (min-width: 1024px) {
+  .desktop-sidebar,
+  .admin-section-nav {
+    border-color: #f3dce8;
+    background:
+      radial-gradient(ellipse at 0 0, rgb(233 30 120 / 5%), transparent 23rem),
+      #fff;
+  }
+
+  .app-shell:not(:has(.auth-page)) .site-header {
+    border-color: #f3dce8;
+    background: rgb(255 255 255 / 90%);
+  }
+
+  .site-frame:not(:has(.desktop-sidebar, .admin-section-nav)) .app-shell {
+    background: rgb(255 255 255 / 60%);
+  }
+}
+
+@media (max-width: 520px) {
+  .site-header {
+    background: rgb(255 255 255 / 94%);
+  }
+
+  .wallet-page .wallet-balance-card > strong {
+    font-size: clamp(30px, 10vw, 42px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-quick-actions > a,
+  .desktop-sidebar__item,
+  .admin-section-nav__links a,
+  .site-header__profile,
+  .bottom-nav__item {
+    transition: none;
   }
 }

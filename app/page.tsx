@@ -112,7 +112,7 @@ async function HomeContent() {
       </header>
 
       <section
-        className="rewards-card"
+        className="rewards-card home-cash-balance"
         aria-label={
           cashBalance === undefined
             ? "Cash balance unavailable"
@@ -137,7 +137,7 @@ async function HomeContent() {
       </section>
 
       <section className="summary-grid home-dashboard-grid" aria-label="Account overview">
-        <article className="summary-card">
+        <article className="summary-card home-points-card">
           <span>Golden Points</span>
           <strong>
             {pointsResult.summary
