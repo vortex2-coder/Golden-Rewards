@@ -9,8 +9,8 @@
   --text: #29202a;
   --muted: #827581;
   --subtle: #958a95;
-  --gold: #b90d59;
-  --gold-bright: #e91e78;
+  --gold: #c60055;
+  --gold-bright: #ff1493;
   --gold-ink: #ffffff;
 }
 
@@ -4260,4 +4260,155 @@ body {
   .bottom-nav__item {
     transition: none;
   }
+}
+
+:root {
+  --hot-pink: #ff1493;
+  --deep-pink: #c60055;
+  --hot-pink-wash: #ffe0ef;
+}
+
+.eyebrow,
+.site-header__greeting .site-header__eyebrow,
+.text-link,
+.notice-card > a,
+.guide-prose a,
+.public-page__more a,
+.site-header__profile-arrow,
+.desktop-sidebar__footer a,
+.admin-section-nav__support,
+.home-quick-actions__arrow {
+  color: var(--deep-pink);
+}
+
+.button--gold,
+.button--primary,
+.auth-submit,
+.button--primary:visited {
+  border-color: var(--hot-pink);
+  background: linear-gradient(135deg, var(--hot-pink) 0%, var(--deep-pink) 100%);
+  box-shadow: 0 8px 20px rgb(255 20 147 / 24%);
+  color: #fff;
+}
+
+.button--gold:hover:not(:disabled),
+.button--primary:hover:not(:disabled),
+.auth-submit:hover:not(:disabled) {
+  border-color: var(--deep-pink);
+  background: var(--deep-pink);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline-color: var(--hot-pink);
+}
+
+.desktop-sidebar__item.is-active,
+.admin-section-nav__links a.is-active {
+  border-color: rgb(255 20 147 / 24%);
+  background: linear-gradient(100deg, rgb(255 20 147 / 17%), rgb(255 20 147 / 5%));
+  color: var(--deep-pink);
+}
+
+.desktop-sidebar__item.is-active .bottom-nav__icon,
+.admin-section-nav__links a.is-active .admin-section-nav__icon {
+  color: var(--hot-pink);
+}
+
+.bottom-nav__item.is-active {
+  background: var(--hot-pink-wash);
+  color: var(--deep-pink);
+}
+
+.bottom-nav__item.is-active .bottom-nav__icon {
+  color: var(--hot-pink);
+}
+
+.site-header__avatar,
+.desktop-sidebar__mark,
+.auth-brand__mark {
+  border-color: rgb(255 20 147 / 42%);
+  background: linear-gradient(145deg, #fff0f7, #ffd2e8);
+  color: var(--deep-pink);
+}
+
+.site-header__profile:hover,
+.site-header__guest-link:hover,
+.home-quick-actions > a:hover {
+  border-color: var(--hot-pink);
+}
+
+.home-cash-balance {
+  border-color: rgb(255 20 147 / 42%);
+  box-shadow: 0 18px 34px rgb(255 20 147 / 11%), inset 0 1px 0 #fff;
+}
+
+.home-cash-balance .rewards-card__chip {
+  border-color: rgb(255 20 147 / 38%);
+  background:
+    linear-gradient(90deg, transparent 47%, rgb(198 0 85 / 24%) 48% 52%, transparent 53%),
+    linear-gradient(0deg, transparent 46%, rgb(198 0 85 / 24%) 47% 52%, transparent 53%),
+    linear-gradient(135deg, #fff, #ffd2e8);
+}
+
+.home-points-card,
+.points-balance-card,
+.points-wallet-section .wallet-balance-card {
+  border-color: var(--deep-pink);
+  background:
+    radial-gradient(ellipse at 90% 0, rgb(255 255 255 / 22%), transparent 48%),
+    linear-gradient(135deg, var(--hot-pink) 0%, var(--deep-pink) 100%);
+  box-shadow: 0 14px 30px rgb(255 20 147 / 24%);
+}
+
+.rewards-card__chip {
+  border-color: rgb(255 255 255 / 78%);
+}
+
+.wallet-balance-card:not(.points-balance-card) {
+  border-color: rgb(255 20 147 / 25%);
+  box-shadow: 0 14px 28px rgb(255 20 147 / 9%);
+}
+
+.status-pill {
+  border-color: rgb(255 20 147 / 22%);
+  background: #fff0f7;
+  color: var(--deep-pink);
+}
+
+.status-pill--verified,
+.status-pill--warning {
+  border-color: #f0abc9;
+  background: #ffe0ef;
+  color: #9c124f;
+}
+
+.home-category-progress > span,
+.bonus-card__progress-track span,
+.earn-progress__track span {
+  background: linear-gradient(90deg, var(--hot-pink), #ff78bb);
+}
+
+.home-quick-actions__icon,
+.guide-row__number,
+.earn-status-card__icon,
+.bonus-card__icon {
+  border-color: rgb(255 20 147 / 24%);
+  background: #fff0f7;
+  color: var(--deep-pink);
+}
+
+.auth-form .auth-field > input:focus,
+.auth-password-wrap > input:focus,
+.auth-country-menu > input:focus,
+.auth-national-phone > input:focus,
+.admin-ads-form__field input:focus,
+.admin-ads-form__field textarea:focus,
+.admin-ads-form__field select:focus,
+.profile-edit-form input:focus,
+.settings-form input:focus {
+  border-color: var(--hot-pink);
+  box-shadow: 0 0 0 3px rgb(255 20 147 / 16%);
 }
