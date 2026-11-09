@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import Script from "next/script";
 import "./premium.css";
 import AuthenticatedNavigation from "./components/AuthenticatedNavigation";
 import SiteChrome from "./components/SiteChrome";
+
+const adsensePublisherId = "ca-pub-5651051237474715";
 
 export const metadata: Metadata = {
   title: {
@@ -33,6 +36,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Suspense fallback={null}>
           <AuthenticatedNavigation />
         </Suspense>
+        <Script
+          async
+          crossOrigin="anonymous"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsensePublisherId}`}
+          strategy="beforeInteractive"
+        />
       </body>
     </html>
   );
