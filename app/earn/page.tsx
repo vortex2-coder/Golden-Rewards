@@ -118,7 +118,6 @@ export default async function EarnPage() {
                 <span className="eyebrow">PARTNER OFFERS</span>
                 <h2 id="partner-offers-title">Available tasks</h2>
               </div>
-              <span className="status-pill">Not AdSense</span>
             </div>
             <div className="partner-offer-list">
               {tasks.map((task, index) => {
@@ -169,10 +168,6 @@ export default async function EarnPage() {
             slotId={adSenseSettings?.slotId ?? ""}
             enabled={adSenseSettings?.enabled ?? false}
           />
-          <p className="supporting-copy">
-            AdSense selects the ads displayed here. Viewing or clicking them does
-            not create an earning record.
-          </p>
         </section>
 
         <section className="wallet-section earn-history">

@@ -97,67 +97,61 @@ export async function signUpAction(
   }
 
   const admin = createSupabaseAdminClient();
-  if (admin) {
-    let duplicateChecks;
-    try {
-      duplicateChecks = await Promise.all([
-        admin
-          .from("profiles")
-          .select("id")
-          .eq("phone_number_e164", phone.number)
-          .maybeSingle(),
-        admin
-          .from("profiles")
-          .select("id")
-          .eq("email", email)
-          .maybeSingle(),
-      ]);
-    } catch {
-      return { error: "A network error interrupted account detail verification. Please try again." };
-    }
-    const [{ data: existingPhone, error: phoneCheckError }, { data: existingEmail, error: emailCheckError }] = duplicateChecks;
-    if (phoneCheckError || emailCheckError) return { error: "Could not verify those account details. Please try again." };
-    if (existingPhone || existingEmail) {
-      return { error: "That email address or phone number may already be registered." };
-    }
+  if (!admin) {
+    return { error: "Automatic email verification is not configured. Please contact the site owner." };
   }
 
-  const siteUrl = await getSiteUrl();
+  let duplicateChecks;
+  try {
+    duplicateChecks = await Promise.all([
+      admin
+        .from("profiles")
+        .select("id")
+        .eq("phone_number_e164", phone.number)
+        .maybeSingle(),
+      admin
+        .from("profiles")
+        .select("id")
+        .eq("email", email)
+        .maybeSingle(),
+    ]);
+  } catch {
+    return { error: "A network error interrupted account detail verification. Please try again." };
+  }
+  const [{ data: existingPhone, error: phoneCheckError }, { data: existingEmail, error: emailCheckError }] = duplicateChecks;
+  if (phoneCheckError || emailCheckError) return { error: "Could not verify those account details. Please try again." };
+  if (existingPhone || existingEmail) {
+    return { error: "That email address or phone number may already be registered." };
+  }
+
   let signupResult;
   try {
-    signupResult = await supabase.auth.signUp({
+    signupResult = await admin.auth.admin.createUser({
       email,
       password,
-      options: {
-        emailRedirectTo: `${siteUrl}/auth/callback?next=%2F`,
-        data: {
-          first_name: firstName,
-          last_name: lastName,
-          username,
-          country: country.name,
-          country_iso_code: countryCode,
-          country_dial_code: `+${phone.countryCallingCode}`,
-          phone_number: phone.formatNational(),
-          phone_number_e164: phone.number,
-          referral_reference: referralReference || null,
-        },
+      email_confirm: true,
+      user_metadata: {
+        first_name: firstName,
+        last_name: lastName,
+        username,
+        country: country.name,
+        country_iso_code: countryCode,
+        country_dial_code: `+${phone.countryCallingCode}`,
+        phone_number: phone.formatNational(),
+        phone_number_e164: phone.number,
+        referral_reference: referralReference || null,
       },
     });
   } catch {
     return { error: "A network error interrupted account creation. Please try again." };
   }
-  const { data, error } = signupResult;
-
-  if (error) {
+  if (signupResult.error || !signupResult.data.user) {
+    console.error("Could not create a verified account.", signupResult.error);
     return { error: "We could not create the account. Check your details or try signing in." };
   }
-  if (data.user?.identities?.length === 0) {
-    return { error: "We could not create the account. Check your details or try signing in." };
-  }
-  if (data.session) redirect("/");
 
   return {
-    success: "Your account has been created. You can now sign in.",
+    success: "Your account has been created and your email is verified. You can now sign in.",
   };
 }
 

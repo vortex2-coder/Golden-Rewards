@@ -39,7 +39,7 @@ export default function ReferralTools({
         </div>
         <span className="status-pill">Personal link</span>
       </div>
-      <p>Your referral code is unique to your account. Referrals are recorded at registration; no bonus is credited until a qualifying reward policy is configured.</p>
+      <p>Get $10.00 USD when you join with a referral, and earn another $10.00 USD for each new member who joins with your link or code.</p>
       <div className="referral-code-box">
         <span>REFERRAL CODE</span>
         <strong>{referralCode}</strong>

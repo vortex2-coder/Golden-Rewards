@@ -355,7 +355,7 @@ export function SignupForm({ initialReferral = "", configured }: { initialReferr
       <div className="auth-field">
         <label htmlFor="signup-email">Email address</label>
         <input id="signup-email" name="email" type="email" autoComplete="email" maxLength={254} required />
-        <small>Email addresses are not verified during registration.</small>
+        <small>Your email is verified automatically when your account is created.</small>
       </div>
       <CountryPhoneField />
       <ReferralField initialValue={initialReferral} configured={configured} />

@@ -25,6 +25,17 @@ export type SurveyCashLedgerEntry = {
   created_at: string;
 };
 
+export type ReferralCashLedgerEntry = {
+  id: string;
+  description: string;
+  amount_usd: number;
+  created_at: string;
+};
+
+type ReferralCashLedgerRow = Omit<ReferralCashLedgerEntry, "amount_usd"> & {
+  amount_usd: number | string;
+};
+
 export async function getActiveEarningTasks() {
   const supabase = createSupabaseAdminClient();
   if (!supabase) return { tasks: null, error: "Earning tasks are not configured." };
@@ -87,6 +98,28 @@ export async function getMemberSurveyRewardHistory(limit = 50) {
       ...entry,
       amount_usd: Number(entry.amount_usd),
     })) as SurveyCashLedgerEntry[],
+    error: null,
+  };
+}
+
+export async function getMemberReferralCashHistory() {
+  const supabase = await createSupabaseServerClient();
+  if (!supabase) return { entries: null, error: "Referral reward history is unavailable." };
+
+  const { data, error } = await supabase.rpc("get_my_referral_cash_history");
+  if (error) {
+    console.error("Could not load the member's referral reward history.", error);
+    return {
+      entries: null,
+      error: "Referral reward history is unavailable. Apply the referral welcome credits migration to enable it.",
+    };
+  }
+  const entries = (data ?? []) as ReferralCashLedgerRow[];
+  return {
+    entries: entries.map((entry) => ({
+      ...entry,
+      amount_usd: Number(entry.amount_usd),
+    })),
     error: null,
   };
 }

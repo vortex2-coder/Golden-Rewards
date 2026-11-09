@@ -30,7 +30,9 @@ async function MeContent() {
           <strong>{profile.first_name} {profile.last_name}</strong>
           <span>@{profile.username}</span>
         </div>
-        <span className="status-pill">Email not verified</span>
+        <span className={`status-pill${profile.email_confirmed_at ? " status-pill--verified" : ""}`}>
+          {profile.email_confirmed_at ? "Email verified" : "Email not verified"}
+        </span>
       </section>
       <section className="account-details">
         <div className="account-detail"><span>EMAIL ADDRESS</span><strong>{profile.email}</strong></div>

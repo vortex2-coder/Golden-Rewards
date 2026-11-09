@@ -76,7 +76,7 @@ async function HomeContent() {
           <article className="summary-card">
             <span>Account</span>
             <strong>@{member.profile.username}</strong>
-            <small>Email not verified</small>
+            <small>{member.profile.email_confirmed_at ? "Email verified" : "Email not verified"}</small>
           </article>
           <article className="summary-card">
             <span>Reward activity</span>

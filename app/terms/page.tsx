@@ -56,10 +56,9 @@ export default function TermsPage() {
         <section>
           <h2>3. Activities and rewards</h2>
           <p>
-            The site currently supports accounts and referral registration
-            tracking. A rewards ledger, approved incentivised-ad partner,
-            withdrawal service and referral payment rules are not configured.
-            The site does not currently promise or pay earnings.
+            The site supports referral credits and selected rewards. Credits
+            are recorded in the wallet after the applicable activity is
+            completed and confirmed. Withdrawals are not currently available.
           </p>
           <p>
             Standard Google AdSense advertisements, if displayed, are not
@@ -75,25 +74,28 @@ export default function TermsPage() {
           <h2>4. Referrals</h2>
           <p>
             Your account may have a unique referral code and invitation link.
-            The current referral feature records registrations attributed to
-            that invitation; it does not currently pay referral earnings.
-            Registration alone does not qualify for a reward unless qualifying
-            rules are published on the site.
+            When a new member successfully creates an account using your
+            referral code or link, both you and that member receive a one-time
+            $10.00 USD credit in your respective wallets. The inviter&apos;s credit
+            is recorded as a referral earning; the new member&apos;s credit is
+            recorded as a welcome referral bonus. Withdrawals are unavailable
+            until a payout service is connected.
           </p>
           <p>
             Do not refer yourself, create duplicate or fake accounts, automate
             registrations, or otherwise manipulate referrals. The operator
-            may disqualify invalid referrals and reverse rewards if a reward
-            programme is introduced and abuse is established.
+            may disqualify invalid referrals and reverse rewards if abuse is
+            established.
           </p>
         </section>
         <section>
           <h2>5. Wallet and withdrawals</h2>
           <p>
-            The wallet and withdrawal service are not currently connected to a
-            rewards ledger or payment provider. No balance shown as unavailable
-            or unconfigured is a promise of payment. If withdrawals become
-            available, the site will publish the supported methods, minimum
+            Wallet credits are recorded for confirmed rewards, including
+            qualifying referral bonuses. The withdrawal service is not
+            currently connected to a payment provider, so recorded credits
+            cannot yet be withdrawn. If withdrawals become available, the
+            site will publish the supported methods, minimum
             amount, fees, verification requirements and expected processing
             information before you submit a request. Pending rewards, if
             introduced, may be adjusted when a provider rejects or reverses an

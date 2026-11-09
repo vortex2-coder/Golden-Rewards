@@ -112,10 +112,9 @@ export default function SurveyAccessPanel({
             <span className="eyebrow">PROVIDER-VERIFIED REWARDS</span>
             <h2 id="points-campaigns-member-title">Earn Golden Points</h2>
           </div>
-          <span className="status-pill">Not AdSense</span>
         </div>
         <p className="supporting-copy">
-          Points are awarded only after a partner that permits incentivized rewards confirms completion. Google AdSense views and clicks never earn points.
+          Points are awarded only after a partner that permits incentivized rewards confirms completion.
         </p>
         {campaignsError ? (
           <div className="empty-state-card" role="status">

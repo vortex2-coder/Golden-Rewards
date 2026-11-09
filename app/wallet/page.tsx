@@ -3,32 +3,34 @@ import { AuthenticatedPage } from "../components/AuthenticatedPage";
 import { formatMoney, getLocalCurrencyQuote } from "@/lib/currency";
 import {
   getMemberRewardHistory,
-  getMemberRewardSummary,
+  getMemberReferralCashHistory,
   getMemberSurveyRewardHistory,
 } from "@/lib/rewards";
 import { getCurrentMember } from "@/lib/supabase/server";
 import { getMemberPointsHistory, getMemberPointsSummary } from "@/lib/points";
+import { getMobileMoneyProviders } from "@/lib/mobile-money";
 
 export const metadata: Metadata = {
   title: "Wallet",
   description:
-    "Review approved partner rewards and wallet activity. Standard AdSense views do not create a payable balance.",
+    "Review your cash balance and reward activity. Standard AdSense views do not create a payable balance.",
 };
 
 export default async function WalletPage() {
-  const [historyResult, surveyHistory, summary, member, pointsResult, pointsHistory] = await Promise.all([
+  const [historyResult, surveyHistory, referralHistory, member, pointsResult, pointsHistory] = await Promise.all([
     getMemberRewardHistory(),
     getMemberSurveyRewardHistory(),
-    getMemberRewardSummary(),
+    getMemberReferralCashHistory(),
     getCurrentMember(),
     getMemberPointsSummary(),
     getMemberPointsHistory(),
   ]);
   const countryIsoCode = member.profile?.country_iso_code ?? "";
-  const approvedUsd = summary?.approvedUsd ?? null;
+  const mobileMoneyProviders = getMobileMoneyProviders(countryIsoCode);
+  const cashBalanceUsd = pointsResult.summary?.cashBalanceUsd ?? null;
   const localQuote =
-    approvedUsd !== null && countryIsoCode
-      ? await getLocalCurrencyQuote(approvedUsd, countryIsoCode)
+    cashBalanceUsd !== null && countryIsoCode
+      ? await getLocalCurrencyQuote(cashBalanceUsd, countryIsoCode)
       : null;
 
   return (
@@ -37,7 +39,7 @@ export default async function WalletPage() {
         <header className="public-page__heading">
           <span className="eyebrow">WALLET</span>
           <h1>Your wallet.</h1>
-          <p>Approved rewards are shown in USD. Local-currency values are estimates for display only.</p>
+          <p>Your cash credits are shown in USD. Local-currency values are estimates for display only.</p>
         </header>
         <section className="wallet-section points-wallet-section" aria-labelledby="points-wallet-title">
           <div className="section-heading">
@@ -85,10 +87,10 @@ export default async function WalletPage() {
         </section>
         <section className="wallet-balance-card" id="availability">
           <div className="wallet-balance-card__top">
-            <span>APPROVED BALANCE · USD</span>
+            <span>CASH BALANCE · USD</span>
             <span className="wallet-balance-card__chip" aria-hidden="true" />
           </div>
-          <strong>{approvedUsd === null ? "Unavailable" : formatMoney(approvedUsd, "USD")}</strong>
+          <strong>{cashBalanceUsd === null ? "Unavailable" : formatMoney(cashBalanceUsd, "USD")}</strong>
           <small>
             {localQuote?.amount !== null && localQuote
               ? `Approx. ${formatMoney(localQuote.amount, localQuote.currencyCode)}`
@@ -107,9 +109,9 @@ export default async function WalletPage() {
             <small>Partner reviews are not payable until confirmed</small>
           </article>
           <article className="summary-card">
-            <span>Total approved earnings</span>
-            <strong>{approvedUsd === null ? "Unavailable" : formatMoney(approvedUsd, "USD")}</strong>
-            <small>Confirmed partner credits, net of recorded reversals</small>
+            <span>Total cash credits</span>
+            <strong>{cashBalanceUsd === null ? "Unavailable" : formatMoney(cashBalanceUsd, "USD")}</strong>
+            <small>Partner, survey and referral credits, net of recorded reversals</small>
           </article>
           <article className="summary-card">
             <span>Total withdrawals</span>
@@ -117,9 +119,9 @@ export default async function WalletPage() {
             <small>No payout integration is configured</small>
           </article>
           <article className="summary-card">
-            <span>Payment methods</span>
-            <strong>Not configured</strong>
-            <small>Payment details are not collected</small>
+            <span>Mobile money</span>
+            <strong>{mobileMoneyProviders[0] ?? "Not available"}</strong>
+            <small>{member.profile?.country ?? "Country not set"}</small>
           </article>
         </div>
 
@@ -129,10 +131,25 @@ export default async function WalletPage() {
               <span className="eyebrow">PAYMENT METHODS</span>
               <h2>Payment methods</h2>
             </div>
-            <span className="status-pill">Not configured</span>
+            <span className="status-pill">Mobile money</span>
           </div>
           <p className="supporting-copy">
-            Withdrawals and payment methods are not enabled. No payout will be shown as successful unless a confirmed payout service is connected.
+            Mobile money transfer options for {member.profile?.country ?? "your country"}:
+          </p>
+          {mobileMoneyProviders.length ? (
+            <ul>
+              {mobileMoneyProviders.map((provider) => <li key={provider}>{provider}</li>)}
+            </ul>
+          ) : (
+            <p className="supporting-copy">No country-specific mobile-money provider is configured yet.</p>
+          )}
+          {member.profile && (
+            <p className="supporting-copy">
+              Mobile number on your account: <strong>{member.profile.phone_number_e164}</strong>
+            </p>
+          )}
+          <p className="supporting-copy">
+            Payouts are not enabled yet. A transfer is not considered successful until a payout service is connected and confirms it.
           </p>
         </section>
 
@@ -143,14 +160,15 @@ export default async function WalletPage() {
               <h2>Reward history</h2>
             </div>
             <span className="status-pill">
-              {historyResult.entries || surveyHistory.entries
-                ? `${(historyResult.entries?.length ?? 0) + (surveyHistory.entries?.length ?? 0)} records`
+              {historyResult.entries || surveyHistory.entries || referralHistory.entries
+                ? `${(historyResult.entries?.length ?? 0) + (surveyHistory.entries?.length ?? 0) + (referralHistory.entries?.length ?? 0)} records`
                 : "Unavailable"}
             </span>
           </div>
           {historyResult.error && <p className="form-message" role="status">{historyResult.error}</p>}
           {surveyHistory.error && <p className="form-message" role="status">{surveyHistory.error}</p>}
-          {historyResult.entries?.length || surveyHistory.entries?.length ? (
+          {referralHistory.error && <p className="form-message" role="status">{referralHistory.error}</p>}
+          {historyResult.entries?.length || surveyHistory.entries?.length || referralHistory.entries?.length ? (
             <div className="reward-history-list">
               {historyResult.entries?.map((entry) => (
                 <article className="reward-history-row" key={entry.id}>
@@ -176,11 +194,21 @@ export default async function WalletPage() {
                   <strong>+{formatMoney(entry.amount_usd, "USD")}</strong>
                 </article>
               ))}
+              {referralHistory.entries?.map((entry) => (
+                <article className="reward-history-row" key={entry.id}>
+                  <span>
+                    <strong>{entry.description}</strong>
+                    <small>{new Date(entry.created_at).toLocaleString()}</small>
+                  </span>
+                  <span className="status-pill">approved</span>
+                  <strong>+{formatMoney(entry.amount_usd, "USD")}</strong>
+                </article>
+              ))}
             </div>
-          ) : !historyResult.error && !surveyHistory.error ? (
+          ) : !historyResult.error && !surveyHistory.error && !referralHistory.error ? (
             <div className="empty-state-card">
               <h3>No reward transactions yet</h3>
-              <p>Confirmed partner rewards will appear here after the partner verifies completion.</p>
+              <p>Confirmed partner, survey and referral credits will appear here.</p>
             </div>
           ) : null}
           <div className="withdrawal-states">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AuthenticatedPage } from "../components/AuthenticatedPage";
 import ReferralTools from "../components/ReferralTools";
+import { formatMoney } from "@/lib/currency";
 import { createSupabaseServerClient, getCurrentMember, getSiteUrl } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
@@ -11,6 +12,8 @@ export const metadata: Metadata = {
 type ReferralRecord = {
   username: string;
   created_at: string;
+  email_confirmed: boolean;
+  earned_usd: number;
 };
 
 async function TeamContent() {
@@ -22,8 +25,8 @@ async function TeamContent() {
   const siteUrl = await getSiteUrl();
 
   const [summaryResult, historyResult] = await Promise.all([
-    supabase.rpc("get_referral_summary"),
-    supabase.rpc("get_referral_history"),
+    supabase.rpc("get_my_referral_summary"),
+    supabase.rpc("get_my_referral_history"),
   ]);
   if (summaryResult.error || historyResult.error) {
     throw new Error("Could not load referral information. Confirm the latest Supabase migration has been applied.");
@@ -32,13 +35,15 @@ async function TeamContent() {
   const summary = summaryResult.data?.[0];
   const referralHistory: ReferralRecord[] = historyResult.data ?? [];
   const totalInvited = summary?.total_invited ?? 0;
+  const successfulReferrals = summary?.successful_referrals ?? 0;
+  const referralEarningsUsd = Number(summary?.earned_usd ?? 0);
 
   return (
     <main className="app-page public-page team-page">
       <header className="public-page__heading">
         <span className="eyebrow">TEAM · REFERRALS</span>
         <h1>Grow your team.</h1>
-        <p>Invite friends with your personal link and follow their registration status.</p>
+        <p>Get $10.00 USD for joining with a referral, and get $10.00 USD every time a new member joins using your invitation.</p>
       </header>
       <ReferralTools referralCode={member.profile.referral_code} username={member.profile.username} siteUrl={siteUrl} />
       <section className="team-summary">
@@ -56,18 +61,18 @@ async function TeamContent() {
           </article>
           <article className="summary-card">
             <span>Successful referrals</span>
-            <strong>{totalInvited}</strong>
-            <small>Registered accounts attributed to your link</small>
+            <strong>{successfulReferrals}</strong>
+            <small>Completed account registrations attributed to your link</small>
           </article>
           <article className="summary-card">
             <span>Pending referrals</span>
-            <strong>0</strong>
-            <small>Unfinished signups are not recorded</small>
+            <strong>{summary?.pending_referrals ?? 0}</strong>
+            <small>Referred accounts not yet verified</small>
           </article>
           <article className="summary-card">
             <span>Referral earnings</span>
-            <strong>Not configured</strong>
-            <small>No referral reward policy is active</small>
+            <strong>{formatMoney(referralEarningsUsd, "USD")}</strong>
+            <small>$10.00 USD credited for each successful referral</small>
           </article>
         </div>
       </section>
@@ -93,7 +98,10 @@ async function TeamContent() {
                   <strong>@{referral.username}</strong>
                   <small>Joined {new Date(referral.created_at).toLocaleDateString()}</small>
                 </span>
-                <span className="status-pill">Registered</span>
+                <span className="status-pill">{referral.email_confirmed ? "Successful" : "Pending"}</span>
+                {referral.earned_usd > 0 && (
+                  <strong>+{formatMoney(Number(referral.earned_usd), "USD")}</strong>
+                )}
               </article>
             ))}
           </div>
@@ -105,7 +113,7 @@ async function TeamContent() {
         )}
       </section>
       <aside className="guide-disclaimer">
-        Referral registrations are tracked securely. Earnings remain unavailable until the operator configures and publishes qualifying reward rules.
+        Both you and the person you invite receive a $10.00 USD wallet credit after their account is successfully created. Withdrawals remain unavailable until a payout service is connected.
       </aside>
     </main>
   );
