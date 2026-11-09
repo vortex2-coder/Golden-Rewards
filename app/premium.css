@@ -12,6 +12,20 @@
   --gold: #c60055;
   --gold-bright: #ff1493;
   --gold-ink: #ffffff;
+  --hot-pink: #ff1493;
+  --deep-pink: #c60055;
+  --hot-pink-wash: #ffe0ef;
+  --hot-pink-light: #ff78bb;
+  --pink-highlight: #ffd2e8;
+  --pink-highlight-soft: #fff0f7;
+  --surface-highlight: #fffafd;
+  --status-border: #f0abc9;
+  --background-rgb: 255 240 246;
+  --hot-pink-rgb: 255 20 147;
+  --deep-pink-rgb: 198 0 85;
+  --hot-pink-wash-rgb: 255 224 239;
+  --pink-highlight-rgb: 255 210 232;
+  --border-gold-rgb: 217 160 169;
 }
 
 * {
@@ -29,8 +43,8 @@ body {
   color: var(--text);
   background-color: var(--background);
   background-image:
-    radial-gradient(ellipse at 82% 0, rgb(233 30 120 / 5%), transparent 34rem),
-    radial-gradient(ellipse at 5% 72%, rgb(217 160 169 / 7%), transparent 35rem);
+    radial-gradient(ellipse at 82% 0, rgb(var(--hot-pink-rgb) / 5%), transparent 34rem),
+    radial-gradient(ellipse at 5% 72%, rgb(var(--border-gold-rgb) / 7%), transparent 35rem);
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
@@ -61,7 +75,7 @@ button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 select:focus-visible {
-  outline: 2px solid #e91e78;
+  outline: 2px solid var(--hot-pink);
   outline-offset: 3px;
 }
 
@@ -74,7 +88,7 @@ select:focus-visible {
   background: transparent;
   border-right: 1px solid var(--border);
   border-left: 1px solid var(--border);
-  box-shadow: 0 0 52px rgb(185 13 89 / 5%);
+  box-shadow: 0 0 52px rgb(var(--deep-pink-rgb) / 5%);
 }
 
 .site-header {
@@ -3614,20 +3628,20 @@ body {
 
 body {
   color: #29202a;
-  background-color: #fff0f6;
+  background-color: var(--background);
   background-image:
-    radial-gradient(ellipse at 82% 0, rgb(233 30 120 / 5%), transparent 34rem),
-    radial-gradient(ellipse at 5% 72%, rgb(217 160 169 / 7%), transparent 35rem);
+    radial-gradient(ellipse at 82% 0, rgb(var(--hot-pink-rgb) / 5%), transparent 34rem),
+    radial-gradient(ellipse at 5% 72%, rgb(var(--border-gold-rgb) / 7%), transparent 35rem);
 }
 
 .app-shell {
   background: transparent;
-  border-color: #f3dce8;
-  box-shadow: 0 0 52px rgb(185 13 89 / 5%);
+  border-color: var(--border);
+  box-shadow: 0 0 52px rgb(var(--deep-pink-rgb) / 5%);
 }
 
 .site-header {
-  border-bottom: 1px solid #f3dce8;
+  border-bottom: 1px solid var(--border);
   background: rgb(255 255 255 / 90%);
 }
 
@@ -3649,31 +3663,31 @@ body {
 
 .site-header__profile,
 .site-header__guest-link {
-  border-color: #f3dce8;
+  border-color: var(--border);
   background: #fff;
   color: #29202a;
 }
 
 .site-header__profile:hover,
 .site-header__guest-link:hover {
-  border-color: #d9a0a9;
-  background: #fff0f6;
+  border-color: var(--border-gold);
+  background: var(--background);
 }
 
 .site-header__avatar,
 .desktop-sidebar__mark {
-  border-color: #d9a0a9;
-  background: linear-gradient(145deg, #fff0f6, #fce0ed);
-  color: #b90d59;
+  border-color: var(--border-gold);
+  background: linear-gradient(145deg, var(--background), var(--surface-soft));
+  color: var(--deep-pink);
 }
 
 .desktop-sidebar,
 .admin-section-nav {
-  border-color: #f3dce8;
+  border-color: var(--border);
   background:
-    radial-gradient(ellipse at 0 0, rgb(233 30 120 / 5%), transparent 23rem),
+    radial-gradient(ellipse at 0 0, rgb(var(--hot-pink-rgb) / 5%), transparent 23rem),
     #fff;
-  box-shadow: 12px 0 40px rgb(185 13 89 / 6%);
+  box-shadow: 12px 0 40px rgb(var(--deep-pink-rgb) / 6%);
 }
 
 .desktop-sidebar__brand,
@@ -3683,7 +3697,7 @@ body {
 
 .desktop-sidebar__brand strong,
 .admin-section-nav__brand strong {
-  color: #b90d59;
+  color: var(--deep-pink);
 }
 
 .desktop-sidebar__caption {
@@ -3697,19 +3711,19 @@ body {
 
 .desktop-sidebar__item:hover,
 .admin-section-nav__links a:hover {
-  background: #fff0f6;
+  background: var(--background);
   color: #29202a;
 }
 
 .desktop-sidebar__item.is-active,
 .admin-section-nav__links a.is-active {
-  border-color: #f3dce8;
-  background: linear-gradient(100deg, rgb(233 30 120 / 10%), rgb(233 30 120 / 3%));
-  color: #b90d59;
+  border-color: var(--border);
+  background: linear-gradient(100deg, rgb(var(--hot-pink-rgb) / 10%), rgb(var(--hot-pink-rgb) / 3%));
+  color: var(--deep-pink);
 }
 
 .desktop-sidebar__footer {
-  border-color: #f3dce8;
+  border-color: var(--border);
 }
 
 .desktop-sidebar__footer > span {
@@ -3718,23 +3732,23 @@ body {
 
 .desktop-sidebar__footer a,
 .admin-section-nav__support {
-  color: #b90d59;
+  color: var(--deep-pink);
 }
 
 .admin-section-nav__icon {
-  border-color: #f3dce8;
-  color: #b90d59;
+  border-color: var(--border);
+  color: var(--deep-pink);
 }
 
 .admin-section-nav__links a.is-active .admin-section-nav__icon {
-  border-color: #d9a0a9;
-  background: #fff0f6;
+  border-color: var(--border-gold);
+  background: var(--background);
 }
 
 .bottom-nav {
-  border-color: #f3dce8;
+  border-color: var(--border);
   background: rgb(255 255 255 / 97%);
-  box-shadow: 0 -8px 28px rgb(185 13 89 / 8%);
+  box-shadow: 0 -8px 28px rgb(var(--deep-pink-rgb) / 8%);
 }
 
 .bottom-nav__item {
@@ -3743,8 +3757,8 @@ body {
 
 .bottom-nav__item.is-active {
   border-radius: 12px;
-  background: #fff0f6;
-  color: #b90d59;
+  background: var(--background);
+  color: var(--deep-pink);
 }
 
 .bottom-nav__label {
@@ -3755,51 +3769,51 @@ body {
 .button--primary,
 .auth-submit,
 .button--primary:visited {
-  border-color: #e91e78;
-  background: linear-gradient(135deg, #e91e78 0%, #b90d59 100%);
-  box-shadow: 0 7px 18px rgb(185 13 89 / 16%);
+  border-color: var(--hot-pink);
+  background: linear-gradient(135deg, var(--hot-pink) 0%, var(--deep-pink) 100%);
+  box-shadow: 0 7px 18px rgb(var(--deep-pink-rgb) / 16%);
   color: #fff;
 }
 
 .button--gold:hover:not(:disabled),
 .button--primary:hover:not(:disabled),
 .auth-submit:hover:not(:disabled) {
-  border-color: #b90d59;
-  background: #b90d59;
+  border-color: var(--deep-pink);
+  background: var(--deep-pink);
 }
 
 .button--outline {
-  border-color: #d9a0a9;
+  border-color: var(--border-gold);
   background: #fff;
-  color: #b90d59;
+  color: var(--deep-pink);
 }
 
 .button--outline:hover:not(:disabled) {
-  background: #fff0f6;
+  background: var(--background);
 }
 
 .button--muted,
 .button:disabled,
 .home-cashout:disabled {
-  border-color: #f3dce8;
-  background: #f8f3f6;
+  border-color: var(--border);
+  background: var(--surface-soft);
   color: #958a95;
 }
 
 .rewards-card {
-  border-color: #b90d59;
+  border-color: var(--deep-pink);
   background:
     radial-gradient(ellipse at 90% 0, rgb(255 255 255 / 18%), transparent 44%),
-    linear-gradient(135deg, #e91e78 0%, #b90d59 100%);
-  box-shadow: 0 18px 34px rgb(185 13 89 / 18%), inset 0 1px 0 rgb(255 255 255 / 25%);
+    linear-gradient(135deg, var(--hot-pink) 0%, var(--deep-pink) 100%);
+  box-shadow: 0 18px 34px rgb(var(--deep-pink-rgb) / 18%), inset 0 1px 0 rgb(255 255 255 / 25%);
 }
 
 .home-cash-balance {
-  border-color: #d9a0a9;
+  border-color: var(--border-gold);
   background:
-    radial-gradient(ellipse at 95% 0, rgb(217 160 169 / 14%), transparent 45%),
-    linear-gradient(135deg, #fff 0%, #fffafd 100%);
-  box-shadow: 0 18px 34px rgb(185 13 89 / 7%), inset 0 1px 0 #fff;
+    radial-gradient(ellipse at 95% 0, rgb(var(--border-gold-rgb) / 14%), transparent 45%),
+    linear-gradient(135deg, #fff 0%, var(--surface-highlight) 100%);
+  box-shadow: 0 18px 34px rgb(var(--deep-pink-rgb) / 7%), inset 0 1px 0 #fff;
 }
 
 .home-cash-balance .rewards-card__top,
@@ -3815,19 +3829,19 @@ body {
 }
 
 .home-cash-balance .rewards-card__chip {
-  border-color: #d9a0a9;
+  border-color: var(--border-gold);
   background:
-    linear-gradient(90deg, transparent 47%, rgb(185 13 89 / 16%) 48% 52%, transparent 53%),
-    linear-gradient(0deg, transparent 46%, rgb(185 13 89 / 16%) 47% 52%, transparent 53%),
-    linear-gradient(135deg, #fff, #f3dce8);
+    linear-gradient(90deg, transparent 47%, rgb(var(--deep-pink-rgb) / 16%) 48% 52%, transparent 53%),
+    linear-gradient(0deg, transparent 46%, rgb(var(--deep-pink-rgb) / 16%) 47% 52%, transparent 53%),
+    linear-gradient(135deg, #fff, var(--border));
 }
 
 .home-points-card {
-  border-color: #b90d59;
+  border-color: var(--deep-pink);
   background:
     radial-gradient(ellipse at 90% 0, rgb(255 255 255 / 17%), transparent 48%),
-    linear-gradient(135deg, #e91e78 0%, #b90d59 100%);
-  box-shadow: 0 12px 26px rgb(185 13 89 / 13%);
+    linear-gradient(135deg, var(--hot-pink) 0%, var(--deep-pink) 100%);
+  box-shadow: 0 12px 26px rgb(var(--deep-pink-rgb) / 13%);
 }
 
 .home-points-card > span,
@@ -3837,7 +3851,7 @@ body {
 }
 
 .home-points-card .text-link {
-  color: #fff0f6;
+  color: var(--background);
 }
 
 .rewards-card__top,
@@ -3852,17 +3866,17 @@ body {
 .rewards-card__chip {
   border-color: rgb(255 255 255 / 68%);
   background:
-    linear-gradient(90deg, transparent 47%, rgb(185 13 89 / 38%) 48% 52%, transparent 53%),
-    linear-gradient(0deg, transparent 46%, rgb(185 13 89 / 38%) 47% 52%, transparent 53%),
-    linear-gradient(135deg, #fff, #f3dce8);
+    linear-gradient(90deg, transparent 47%, rgb(var(--deep-pink-rgb) / 38%) 48% 52%, transparent 53%),
+    linear-gradient(0deg, transparent 46%, rgb(var(--deep-pink-rgb) / 38%) 47% 52%, transparent 53%),
+    linear-gradient(135deg, #fff, var(--border));
 }
 
 .wallet-balance-card {
-  border-color: #f3dce8;
+  border-color: var(--border);
   background:
-    radial-gradient(ellipse at 100% 0, rgb(217 160 169 / 14%), transparent 47%),
-    linear-gradient(135deg, #fff, #fffafd);
-  box-shadow: 0 14px 28px rgb(185 13 89 / 8%);
+    radial-gradient(ellipse at 100% 0, rgb(var(--border-gold-rgb) / 14%), transparent 47%),
+    linear-gradient(135deg, #fff, var(--surface-highlight));
+  box-shadow: 0 14px 28px rgb(var(--deep-pink-rgb) / 8%);
 }
 
 .wallet-balance-card > span {
@@ -3879,10 +3893,10 @@ body {
 
 .points-balance-card,
 .points-wallet-section .wallet-balance-card {
-  border-color: #e91e78;
+  border-color: var(--hot-pink);
   background:
     radial-gradient(ellipse at 90% 0, rgb(255 255 255 / 17%), transparent 48%),
-    linear-gradient(135deg, #e91e78 0%, #b90d59 100%);
+    linear-gradient(135deg, var(--hot-pink) 0%, var(--deep-pink) 100%);
 }
 
 .points-balance-card > span,
@@ -3911,9 +3925,9 @@ body {
 .admin-earning-task,
 .admin-rewards-guide,
 .admin-metric {
-  border-color: #f3dce8;
-  background: linear-gradient(145deg, #fff, #fffafd);
-  box-shadow: 0 10px 26px rgb(185 13 89 / 6%);
+  border-color: var(--border);
+  background: linear-gradient(145deg, #fff, var(--surface-highlight));
+  box-shadow: 0 10px 26px rgb(var(--deep-pink-rgb) / 6%);
   color: #29202a;
 }
 
@@ -3946,27 +3960,27 @@ body {
 .guide-prose a,
 .public-page__more a,
 .notice-card > a {
-  color: #b90d59;
+  color: var(--deep-pink);
 }
 
 .status-pill {
-  border-color: #f3dce8;
-  background: #fff0f6;
-  color: #b90d59;
+  border-color: var(--border);
+  background: var(--background);
+  color: var(--deep-pink);
 }
 
 .status-pill--verified,
 .status-pill--warning {
-  border-color: #d9a0a9;
-  background: #fce0ed;
-  color: #8f164e;
+  border-color: var(--border-gold);
+  background: var(--surface-soft);
+  color: var(--deep-pink);
 }
 
 .reward-history-row,
 .guide-row,
 .settings-row,
 .admin-user-row {
-  border-color: #f3dce8;
+  border-color: var(--border);
   background: #fff;
   color: #29202a;
 }
@@ -3988,25 +4002,25 @@ body {
 }
 
 .profile-avatar {
-  border-color: #d9a0a9;
-  background: linear-gradient(135deg, #fff0f6, #d9a0a9);
-  color: #8f164e;
+  border-color: var(--border-gold);
+  background: linear-gradient(135deg, var(--background), var(--border-gold));
+  color: var(--deep-pink);
 }
 
 .referral-link-preview,
 .referral-tools__link,
 .referral-panel__link {
-  border-color: #f3dce8;
-  background: #fff0f6;
-  color: #8f164e;
+  border-color: var(--border);
+  background: var(--background);
+  color: var(--deep-pink);
 }
 
 .auth-card {
-  border-color: #f3dce8;
+  border-color: var(--border);
   background:
-    radial-gradient(ellipse at 100% 0, rgb(233 30 120 / 6%), transparent 48%),
-    linear-gradient(145deg, #fff, #fffafd 70%);
-  box-shadow: 0 24px 70px rgb(185 13 89 / 10%), inset 0 1px 0 #fff;
+    radial-gradient(ellipse at 100% 0, rgb(var(--hot-pink-rgb) / 6%), transparent 48%),
+    linear-gradient(145deg, #fff, var(--surface-highlight) 70%);
+  box-shadow: 0 24px 70px rgb(var(--deep-pink-rgb) / 10%), inset 0 1px 0 #fff;
 }
 
 .auth-brand,
@@ -4016,15 +4030,15 @@ body {
 }
 
 .auth-brand__mark {
-  border-color: #d9a0a9;
-  background: linear-gradient(145deg, #fff0f6, #fce0ed);
-  color: #b90d59;
+  border-color: var(--border-gold);
+  background: linear-gradient(145deg, var(--background), var(--surface-soft));
+  color: var(--deep-pink);
 }
 
 .auth-brand strong,
 .auth-password-toggle,
 .auth-form a {
-  color: #b90d59;
+  color: var(--deep-pink);
 }
 
 .auth-form .auth-field > input,
@@ -4038,7 +4052,7 @@ body {
 .settings-form input,
 .admin-search input,
 .admin-filter select {
-  border-color: #ecd4e0;
+  border-color: var(--border);
   background: #fff;
   color: #29202a;
 }
@@ -4052,8 +4066,8 @@ body {
 .admin-ads-form__field select:focus,
 .profile-edit-form input:focus,
 .settings-form input:focus {
-  border-color: #e91e78;
-  box-shadow: 0 0 0 3px rgb(233 30 120 / 11%);
+  border-color: var(--hot-pink);
+  box-shadow: 0 0 0 3px rgb(var(--hot-pink-rgb) / 11%);
 }
 
 .auth-required-state {
@@ -4091,7 +4105,7 @@ body {
 
 .admin-page .summary-card > strong,
 .admin-metric strong {
-  color: #b90d59;
+  color: var(--deep-pink);
 }
 
 .admin-rewards-guide h3,
@@ -4099,44 +4113,44 @@ body {
 .admin-rewards-notice h3,
 .admin-earning-task > summary strong,
 .admin-earning-task--new > summary strong {
-  color: #8f164e;
+  color: var(--deep-pink);
 }
 
 .admin-earning-task > summary {
-  border-color: #f3dce8;
+  border-color: var(--border);
 }
 
 .ad-section,
 .ad-slot,
 .ad-placeholder {
-  border-color: #f3dce8;
+  border-color: var(--border);
   border-radius: 15px;
   background: #fff;
   color: #827581;
 }
 
 .home-category-progress {
-  border-color: #f3dce8;
-  background: #f8eaf1;
+  border-color: var(--border);
+  background: var(--pink-highlight);
 }
 
 .home-category-progress > span {
-  background: linear-gradient(90deg, #e91e78, #d9a0a9);
+  background: linear-gradient(90deg, var(--hot-pink), var(--border-gold));
 }
 
 .home-quick-actions > a {
-  border-color: #f3dce8;
-  background: linear-gradient(145deg, #fff, #fffafd);
+  border-color: var(--border);
+  background: linear-gradient(145deg, #fff, var(--surface-highlight));
 }
 
 .home-quick-actions > a:hover {
-  border-color: #d9a0a9;
+  border-color: var(--border-gold);
 }
 
 .home-quick-actions__icon {
-  border-color: #f3dce8;
-  background: #fff0f6;
-  color: #b90d59;
+  border-color: var(--border);
+  background: var(--background);
+  color: var(--deep-pink);
 }
 
 .home-quick-actions strong {
@@ -4149,15 +4163,15 @@ body {
 
 .guide-row__number,
 .earn-status-card__icon {
-  border-color: #f3dce8;
-  background: #fff0f6;
-  color: #b90d59;
+  border-color: var(--border);
+  background: var(--background);
+  color: var(--deep-pink);
 }
 
 .bonus-card__icon {
-  border-color: #f3dce8;
-  background: #fff0f6;
-  color: #b90d59;
+  border-color: var(--border);
+  background: var(--background);
+  color: var(--deep-pink);
 }
 
 .bonus-card__identity h2 {
@@ -4170,33 +4184,33 @@ body {
 
 .bonus-card__progress-track,
 .earn-progress__track {
-  background: #f3dce8;
+  background: var(--border);
 }
 
 .bonus-card__progress-track span,
 .earn-progress__track span {
-  background: linear-gradient(90deg, #e91e78, #d9a0a9);
+  background: linear-gradient(90deg, var(--hot-pink), var(--border-gold));
 }
 
 .withdrawal-states__list span {
-  border-color: #f3dce8;
+  border-color: var(--border);
   background: #fff;
   color: #827581;
 }
 
 .status-pill--warning {
-  color: #8f164e;
+  color: var(--deep-pink);
 }
 
 .settings-row:hover,
 .settings-row--button:hover {
-  background: #fff0f6;
+  background: var(--background);
 }
 
 .settings-row button,
 .settings-row__value,
 .settings-row__arrow {
-  color: #b90d59;
+  color: var(--deep-pink);
 }
 
 .empty-state-card,
@@ -4206,8 +4220,8 @@ body {
 
 .legal-draft,
 .admin-rewards-notice {
-  border-color: #f3dce8;
-  background: #fff0f6;
+  border-color: var(--border);
+  background: var(--background);
   color: #504650;
 }
 
@@ -4218,7 +4232,7 @@ body {
 
 @media (min-width: 760px) {
   .bottom-nav {
-    border-color: #f3dce8;
+    border-color: var(--border);
     background: rgb(255 255 255 / 97%);
   }
 }
@@ -4226,14 +4240,14 @@ body {
 @media (min-width: 1024px) {
   .desktop-sidebar,
   .admin-section-nav {
-    border-color: #f3dce8;
+    border-color: var(--border);
     background:
-      radial-gradient(ellipse at 0 0, rgb(233 30 120 / 5%), transparent 23rem),
+      radial-gradient(ellipse at 0 0, rgb(var(--hot-pink-rgb) / 5%), transparent 23rem),
       #fff;
   }
 
   .app-shell:not(:has(.auth-page)) .site-header {
-    border-color: #f3dce8;
+    border-color: var(--border);
     background: rgb(255 255 255 / 90%);
   }
 
@@ -4262,12 +4276,6 @@ body {
   }
 }
 
-:root {
-  --hot-pink: #ff1493;
-  --deep-pink: #c60055;
-  --hot-pink-wash: #ffe0ef;
-}
-
 .eyebrow,
 .site-header__greeting .site-header__eyebrow,
 .text-link,
@@ -4287,7 +4295,7 @@ body {
 .button--primary:visited {
   border-color: var(--hot-pink);
   background: linear-gradient(135deg, var(--hot-pink) 0%, var(--deep-pink) 100%);
-  box-shadow: 0 8px 20px rgb(255 20 147 / 24%);
+  box-shadow: 0 8px 20px rgb(var(--hot-pink-rgb) / 24%);
   color: #fff;
 }
 
@@ -4307,8 +4315,8 @@ select:focus-visible {
 
 .desktop-sidebar__item.is-active,
 .admin-section-nav__links a.is-active {
-  border-color: rgb(255 20 147 / 24%);
-  background: linear-gradient(100deg, rgb(255 20 147 / 17%), rgb(255 20 147 / 5%));
+  border-color: rgb(var(--hot-pink-rgb) / 24%);
+  background: linear-gradient(100deg, rgb(var(--hot-pink-rgb) / 17%), rgb(var(--hot-pink-rgb) / 5%));
   color: var(--deep-pink);
 }
 
@@ -4329,8 +4337,8 @@ select:focus-visible {
 .site-header__avatar,
 .desktop-sidebar__mark,
 .auth-brand__mark {
-  border-color: rgb(255 20 147 / 42%);
-  background: linear-gradient(145deg, #fff0f7, #ffd2e8);
+  border-color: rgb(var(--hot-pink-rgb) / 42%);
+  background: linear-gradient(145deg, var(--pink-highlight-soft), var(--pink-highlight));
   color: var(--deep-pink);
 }
 
@@ -4341,16 +4349,16 @@ select:focus-visible {
 }
 
 .home-cash-balance {
-  border-color: rgb(255 20 147 / 42%);
-  box-shadow: 0 18px 34px rgb(255 20 147 / 11%), inset 0 1px 0 #fff;
+  border-color: rgb(var(--hot-pink-rgb) / 42%);
+  box-shadow: 0 18px 34px rgb(var(--hot-pink-rgb) / 11%), inset 0 1px 0 #fff;
 }
 
 .home-cash-balance .rewards-card__chip {
-  border-color: rgb(255 20 147 / 38%);
+  border-color: rgb(var(--hot-pink-rgb) / 38%);
   background:
-    linear-gradient(90deg, transparent 47%, rgb(198 0 85 / 24%) 48% 52%, transparent 53%),
-    linear-gradient(0deg, transparent 46%, rgb(198 0 85 / 24%) 47% 52%, transparent 53%),
-    linear-gradient(135deg, #fff, #ffd2e8);
+    linear-gradient(90deg, transparent 47%, rgb(var(--deep-pink-rgb) / 24%) 48% 52%, transparent 53%),
+    linear-gradient(0deg, transparent 46%, rgb(var(--deep-pink-rgb) / 24%) 47% 52%, transparent 53%),
+    linear-gradient(135deg, #fff, var(--pink-highlight));
 }
 
 .home-points-card,
@@ -4360,7 +4368,7 @@ select:focus-visible {
   background:
     radial-gradient(ellipse at 90% 0, rgb(255 255 255 / 22%), transparent 48%),
     linear-gradient(135deg, var(--hot-pink) 0%, var(--deep-pink) 100%);
-  box-shadow: 0 14px 30px rgb(255 20 147 / 24%);
+  box-shadow: 0 14px 30px rgb(var(--hot-pink-rgb) / 24%);
 }
 
 .home-points-card > span,
@@ -4369,40 +4377,111 @@ select:focus-visible {
   color: #fff;
 }
 
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.theme-switcher select {
+  max-width: 132px;
+  min-height: 36px;
+  padding: 0 24px 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background-color: var(--surface);
+  color: var(--text);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+@media (max-width: 520px) {
+  .site-header {
+    flex-wrap: wrap;
+  }
+
+  .theme-switcher {
+    margin-left: auto;
+  }
+}
+
+html[data-theme="gold-purple"] {
+  color-scheme: light;
+  --background: #f5f1f8;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-soft: #eee7f5;
+  --border: #ded5e6;
+  --border-gold: #b89137;
+  --text: #2a2131;
+  --muted: #716778;
+  --subtle: #887d90;
+  --gold: #8d6a1e;
+  --gold-bright: #98782b;
+  --gold-ink: #ffffff;
+  --hot-pink: #8d6a1e;
+  --deep-pink: #674187;
+  --hot-pink-wash: #eee7f5;
+  --hot-pink-light: #9c79bd;
+  --pink-highlight: #f1ebf6;
+  --pink-highlight-soft: #eee7f5;
+  --surface-highlight: #faf8fc;
+  --status-border: #d4c4e0;
+  --background-rgb: 245 241 248;
+  --hot-pink-rgb: 141 106 30;
+  --deep-pink-rgb: 103 65 135;
+  --hot-pink-wash-rgb: 238 231 245;
+  --pink-highlight-rgb: 241 235 246;
+  --border-gold-rgb: 184 145 55;
+}
+
+html[data-theme="gold-purple"] .home-points-card,
+html[data-theme="gold-purple"] .points-balance-card,
+html[data-theme="gold-purple"] .points-wallet-section .wallet-balance-card {
+  background:
+    radial-gradient(ellipse at 90% 0, rgb(255 255 255 / 22%), transparent 48%),
+    linear-gradient(135deg, #674187 0%, #382a49 100%);
+  box-shadow: 0 14px 30px rgb(var(--deep-pink-rgb) / 18%);
+}
+
 .rewards-card__chip {
   border-color: rgb(255 255 255 / 78%);
 }
 
 .wallet-balance-card:not(.points-balance-card) {
-  border-color: rgb(255 20 147 / 25%);
-  box-shadow: 0 14px 28px rgb(255 20 147 / 9%);
+  border-color: rgb(var(--hot-pink-rgb) / 25%);
+  box-shadow: 0 14px 28px rgb(var(--hot-pink-rgb) / 9%);
 }
 
 .status-pill {
-  border-color: rgb(255 20 147 / 22%);
-  background: #fff0f7;
+  border-color: rgb(var(--hot-pink-rgb) / 22%);
+  background: var(--pink-highlight);
   color: var(--deep-pink);
 }
 
 .status-pill--verified,
 .status-pill--warning {
-  border-color: #f0abc9;
-  background: #ffe0ef;
-  color: #9c124f;
+  border-color: var(--status-border);
+  background: var(--hot-pink-wash);
+  color: var(--deep-pink);
 }
 
 .home-category-progress > span,
 .bonus-card__progress-track span,
 .earn-progress__track span {
-  background: linear-gradient(90deg, var(--hot-pink), #ff78bb);
+  background: linear-gradient(90deg, var(--hot-pink), var(--hot-pink-light));
 }
 
 .home-quick-actions__icon,
 .guide-row__number,
 .earn-status-card__icon,
 .bonus-card__icon {
-  border-color: rgb(255 20 147 / 24%);
-  background: #fff0f7;
+  border-color: rgb(var(--hot-pink-rgb) / 24%);
+  background: var(--pink-highlight);
   color: var(--deep-pink);
 }
 
@@ -4416,5 +4495,5 @@ select:focus-visible {
 .profile-edit-form input:focus,
 .settings-form input:focus {
   border-color: var(--hot-pink);
-  box-shadow: 0 0 0 3px rgb(255 20 147 / 16%);
+  box-shadow: 0 0 0 3px rgb(var(--hot-pink-rgb) / 16%);
 }

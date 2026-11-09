@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getCurrentMember } from "@/lib/supabase/server";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 export default function SiteChrome() {
   const memberPromise = getCurrentMember();
@@ -38,6 +39,7 @@ async function SiteChromeContent({
         ) : (
           <Link className="site-header__guest-link" href="/login">Member sign in <span aria-hidden="true">↗</span></Link>
         )}
+        <ThemeSwitcher />
       </header>
     </>
   );
