@@ -10,14 +10,18 @@ export const metadata: Metadata = {
     template: "%s | Golden Rewards",
   },
   description: "Golden Rewards account, referrals, wallet, and advertising platform.",
-  other: {
-    "google-adsense-account": "ca-pub-5651051237474715",
-  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" data-theme="dark">
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5651051237474715"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         <div className="app-shell">
           <Suspense fallback={
