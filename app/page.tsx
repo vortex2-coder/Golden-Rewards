@@ -187,6 +187,24 @@ async function HomeContent() {
         </article>
       </section>
 
+      <nav className="home-quick-actions" aria-label="Quick actions">
+        <Link href="/earn">
+          <span className="home-quick-actions__icon" aria-hidden="true">+</span>
+          <span><strong>Find ways to earn</strong><small>Explore surveys and partner offers</small></span>
+          <span className="home-quick-actions__arrow" aria-hidden="true">→</span>
+        </Link>
+        <Link href="/team">
+          <span className="home-quick-actions__icon" aria-hidden="true">↗</span>
+          <span><strong>Invite your team</strong><small>Share your referral link</small></span>
+          <span className="home-quick-actions__arrow" aria-hidden="true">→</span>
+        </Link>
+        <Link href="/wallet">
+          <span className="home-quick-actions__icon" aria-hidden="true">$</span>
+          <span><strong>Review your wallet</strong><small>See separate cash and points history</small></span>
+          <span className="home-quick-actions__arrow" aria-hidden="true">→</span>
+        </Link>
+      </nav>
+
       <section className="wallet-section home-category-card">
         <div className="section-heading">
           <div>

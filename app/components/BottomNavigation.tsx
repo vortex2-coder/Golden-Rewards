@@ -39,26 +39,60 @@ export default function BottomNavigation() {
   const pathname = usePathname();
 
   return (
-    <nav className="bottom-nav" aria-label="Main navigation">
-      {items.map((item) => {
-        const active =
-          pathname === item.href ||
-          (item.href !== "/" && pathname.startsWith(`${item.href}/`));
+    <>
+      <aside className="desktop-sidebar" aria-label="Member workspace">
+        <Link className="desktop-sidebar__brand" href="/" aria-label="Golden Rewards home">
+          <span className="desktop-sidebar__mark" aria-hidden="true">GR</span>
+          <span>GOLDEN<strong>REWARDS</strong></span>
+        </Link>
+        <span className="desktop-sidebar__caption">MEMBER MENU</span>
+        <nav className="desktop-sidebar__nav" aria-label="Main navigation">
+          {items.map((item) => {
+            const active =
+              pathname === item.href ||
+              (item.href !== "/" && pathname.startsWith(`${item.href}/`));
 
-        return (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={`bottom-nav__item ${active ? "is-active" : ""}`}
-            aria-current={active ? "page" : undefined}
-          >
-            <span className="bottom-nav__icon">
-              <NavigationIcon name={item.icon} />
-            </span>
-            <span className="bottom-nav__label">{item.label}</span>
-          </Link>
-        );
-      })}
-    </nav>
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`desktop-sidebar__item ${active ? "is-active" : ""}`}
+                aria-current={active ? "page" : undefined}
+              >
+                <span className="bottom-nav__icon">
+                  <NavigationIcon name={item.icon} />
+                </span>
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+        <div className="desktop-sidebar__footer">
+          <span>Need a hand?</span>
+          <Link href="/contact">Visit help &amp; support <span aria-hidden="true">↗</span></Link>
+        </div>
+      </aside>
+      <nav className="bottom-nav" aria-label="Main navigation">
+        {items.map((item) => {
+          const active =
+            pathname === item.href ||
+            (item.href !== "/" && pathname.startsWith(`${item.href}/`));
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`bottom-nav__item ${active ? "is-active" : ""}`}
+              aria-current={active ? "page" : undefined}
+            >
+              <span className="bottom-nav__icon">
+                <NavigationIcon name={item.icon} />
+              </span>
+              <span className="bottom-nav__label">{item.label}</span>
+            </Link>
+          );
+        })}
+      </nav>
+    </>
   );
 }

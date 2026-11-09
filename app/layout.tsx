@@ -23,23 +23,25 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body>
-        <div className="app-shell">
-          <Suspense fallback={
-            <header className="site-header">
-              <div className="site-header__greeting">
-                <strong>hello, reader</strong>
-                <span>Welcome to Golden Rewards</span>
-              </div>
-              <span className="language-chip" aria-label="Current language: English">EN</span>
-            </header>
-          }>
-            <SiteChrome />
+        <div className="site-frame">
+          <div className="app-shell">
+            <Suspense fallback={
+              <header className="site-header">
+                <div className="site-header__greeting">
+                  <span className="site-header__eyebrow">GOLDEN REWARDS</span>
+                  <strong>Welcome to Golden Rewards</strong>
+                  <span>Your rewards workspace</span>
+                </div>
+              </header>
+            }>
+              <SiteChrome />
+            </Suspense>
+            <Suspense fallback={null}>{children}</Suspense>
+          </div>
+          <Suspense fallback={null}>
+            <AuthenticatedNavigation />
           </Suspense>
-          <Suspense fallback={null}>{children}</Suspense>
         </div>
-        <Suspense fallback={null}>
-          <AuthenticatedNavigation />
-        </Suspense>
       </body>
     </html>
   );
